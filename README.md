@@ -2,8 +2,8 @@
 Code and pre-trained models for our paper, [CLIPping the Deception: Adapting Vision-Language Models for Universal Deepfake Detection](https://arxiv.org/pdf/2402.12927).
 
 ## TODO
-⋅⋅* Inference code.
-⋅⋅* Training code. 
+* Inference code.
+* Training code. 
 
 ## Installation Guide
 This code is built on top of [Dassl.pytorch](https://github.com/KaiyangZhou/Dassl.pytorch), so you need to install the `dassl` environment first. Simply follow the instructions described here to install `dassl` as well as PyTorch. 
