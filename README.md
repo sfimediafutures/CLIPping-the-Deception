@@ -15,6 +15,13 @@ Follow DATASETS.md to install the datasets.
 ## Citations
 If you use this code in your research, please kindly cite the following papers:
 ```
+@article{khan2024clipping,
+  title={CLIPping the Deception: Adapting Vision-Language Models for Universal Deepfake Detection},
+  author={Khan, Sohail Ahmed and Dang-Nguyen, Duc-Tien},
+  journal={arXiv preprint arXiv:2402.12927},
+  year={2024}
+}
+
 @inproceedings{zhou2022cocoop,
     title={Conditional Prompt Learning for Vision-Language Models},
     author={Zhou, Kaiyang and Yang, Jingkang and Loy, Chen Change and Liu, Ziwei},
