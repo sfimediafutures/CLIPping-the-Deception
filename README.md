@@ -3,7 +3,13 @@ Code and pre-trained models for our paper, [CLIPping the Deception: Adapting Vis
 
 ## TODO
 * Inference code.
-* Training code. 
+* Training code.
+
+## Evaluation Dataset
+The evaluation dataset can be found on the link below:
+https://tinyurl.com/5b3fh7fh
+
+The dataset is processed as required by [Dassl.pytorch](https://github.com/KaiyangZhou/Dassl.pytorch). For each subset, e.g., StarGAN, two folders can be found each containing **real** - **fake** images.
 
 ## Installation Guide
 This code is built on top of [Dassl.pytorch](https://github.com/KaiyangZhou/Dassl.pytorch), so you need to install the `dassl` environment first. Simply follow the instructions described here to install `dassl` as well as PyTorch. 
