@@ -3,6 +3,7 @@ Code and pre-trained models for our paper, [CLIPping the Deception: Adapting Vis
 
 ## TODO
 * Inference code.
+* Evaluation code.
 * Training code.
 
 ## Evaluation Dataset
