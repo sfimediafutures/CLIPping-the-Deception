@@ -16,7 +16,7 @@ More details about this convention will be included with the **Inference** and *
 ## Pre-trained Models
 Model weights can be found on: https://tinyurl.com/5dsmpnm7
 
-**Important!!**
+**Important!!**__
 Download and extract **weights.zip** in the same folder as `evaluate.py`
 
 ## Installation Guide
