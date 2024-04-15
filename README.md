@@ -25,6 +25,9 @@ After installing dassl, you also need to install `CoOp` by following instruction
 
 Follow `DATASETS.md` to install the datasets.
 
+## Evaluation
+For now, only `linear probing` evaluation code is made available. I will soon update it with evaluation code for other 3 approaches.
+
 ## Citations
 If you use this code in your research, please kindly cite the following papers:
 ```
