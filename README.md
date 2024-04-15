@@ -52,7 +52,7 @@ After installing dassl, you also need to install [CoOp](https://github.com/Kaiya
 
 All the required files are already available in this repository. Just run `pip install -r requirements.txt` under the main directory to install `CoOp` along with a few more packages required by CLIP (this should be done when dassl is activated). Then, you are ready to go.
 
-Follow `DATASETS.md` to install the datasets.
+If you would like to add more datasets besides the one in our paper, follow `DATASETS.md` to install the datasets.
 
 ## Evaluation
 For now, only `linear probing` evaluation code is made available. I will soon update it with evaluation code for other 3 approaches.
