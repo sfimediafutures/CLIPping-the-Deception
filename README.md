@@ -20,7 +20,7 @@ Model weights can be found on: https://tinyurl.com/5dsmpnm7
 Download and extract **weights.zip** in the same folder as `evaluate.py`
 
 ## Installation Guide
-This code is built on top of [Dassl.pytorch](https://github.com/KaiyangZhou/Dassl.pytorch), so you need to install the `dassl` environment first. `cd` to dassl folder and simply follow the instructions described here to install `dassl` as well as PyTorch. 
+This code is built on top of [Dassl.pytorch](https://github.com/KaiyangZhou/Dassl.pytorch), so you need to install the `dassl` environment first. `cd` to `dassl` folder and simply follow the instructions described here to install `dassl` as well as PyTorch. 
 
 After installing dassl, you also need to install `CoOp` by following instructions [here](https://github.com/KaiyangZhou/CoOp/tree/main). Run `pip install -r requirements.txt` under the main directory to install a few more packages required by CLIP (this should be done when dassl is activated). Then, you are ready to go.
 
