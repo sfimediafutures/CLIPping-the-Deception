@@ -1,0 +1,60 @@
+{
+  "../CoOp_Trained/selected_models/100000_16context_best_until_now/": {
+    "firefly": {
+      "accuracy": 68.55,
+      "f1_score": 65.26565013011576,
+      "average_precision": 95.00577174671143
+    },
+    "midjourney_v5": {
+      "accuracy": 59.05,
+      "f1_score": 51.13328709193834,
+      "average_precision": 86.96445268227926
+    },
+    "dalle3": {
+      "accuracy": 51.25,
+      "f1_score": 36.61585208285186,
+      "average_precision": 75.16851496607755
+    }
+  },
+  "../CoOp_Trained/selected_models/100000_4context/": {
+    "firefly": {
+      "accuracy": 68.3,
+      "f1_score": 65.23326069241746,
+      "average_precision": 91.2572866178572
+    },
+    "midjourney_v5": {
+      "accuracy": 59.4,
+      "f1_score": 52.291646102721025,
+      "average_precision": 81.62754690504926
+    },
+    "dalle3": {
+      "accuracy": 51.95,
+      "f1_score": 39.018180006783524,
+      "average_precision": 68.20100037063447
+    }
+  },
+  "../CoOp_Trained/selected_models/100000_8context/": {
+    "firefly": {
+      "accuracy": 68.45,
+      "f1_score": 65.27218816860325,
+      "average_precision": 93.3018654668363
+    },
+    "midjourney_v5": {
+      "accuracy": 59.7,
+      "f1_score": 52.470810237056256,
+      "average_precision": 84.50970294148404
+    },
+    "dalle3": {
+      "accuracy": 51.4,
+      "f1_score": 37.392998063820485,
+      "average_precision": 69.73817215607174
+    }
+  },
+  "../CoOp_Trained/selected_models/10000_16context/": {
+    "firefly": {
+      "accuracy": 68.9,
+      "f1_score": 66.08713099309094,
+      "average_precision": 91.5610028783075
+    }
+  }
+}

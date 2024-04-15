@@ -1,0 +1,510 @@
+{
+  "../finetuned_clip/finetuned_clips/finetuned_2_epoch_20k/": {
+    "progan": {
+      "accuracy": 88.5375,
+      "f1_score": 88.38489034464085,
+      "average_precision": 99.82402541082891
+    },
+    "biggan": {
+      "accuracy": 80.475,
+      "f1_score": 79.7093724837657,
+      "average_precision": 99.7061015209047
+    },
+    "cyclegan": {
+      "accuracy": 62.05,
+      "f1_score": 55.66483903386733,
+      "average_precision": 98.91047325975623
+    },
+    "eg3d": {
+      "accuracy": 67.15,
+      "f1_score": 65.51882491094332,
+      "average_precision": 84.58443089241706
+    },
+    "gaugan": {
+      "accuracy": 81.58,
+      "f1_score": 80.93306578622285,
+      "average_precision": 99.66121104518267
+    },
+    "stargan": {
+      "accuracy": 82.44122061030515,
+      "f1_score": 81.88264304895682,
+      "average_precision": 99.87610790110797
+    },
+    "stylegan": {
+      "accuracy": 83.05,
+      "f1_score": 82.57266082311018,
+      "average_precision": 98.15978978578661
+    },
+    "stylegan2": {
+      "accuracy": 83.8,
+      "f1_score": 83.61237811706224,
+      "average_precision": 94.21544887623274
+    },
+    "stylegan3": {
+      "accuracy": 81.3157894736842,
+      "f1_score": 81.19061064285167,
+      "average_precision": 91.77805613908858
+    },
+    "dalle2": {
+      "accuracy": 72.5,
+      "f1_score": 70.320292609537,
+      "average_precision": 96.2729092899069
+    },
+    "glide_50_27": {
+      "accuracy": 71.9,
+      "f1_score": 69.77763437390767,
+      "average_precision": 92.56564004044972
+    },
+    "glide_100_10": {
+      "accuracy": 71.85,
+      "f1_score": 69.73247648823612,
+      "average_precision": 92.08926155480984
+    },
+    "glide_100_27": {
+      "accuracy": 71.9,
+      "f1_score": 69.77763437390767,
+      "average_precision": 90.60270435483689
+    },
+    "guided": {
+      "accuracy": 63.25,
+      "f1_score": 62.04052574130077,
+      "average_precision": 70.84993617172219
+    },
+    "ldm_100": {
+      "accuracy": 72.25,
+      "f1_score": 70.09400988406445,
+      "average_precision": 94.97230370476191
+    },
+    "ldm_200": {
+      "accuracy": 71.95,
+      "f1_score": 69.82280175113817,
+      "average_precision": 94.62149274788094
+    },
+    "ldm_200_cfg": {
+      "accuracy": 70.15,
+      "f1_score": 68.20218510109922,
+      "average_precision": 88.28674460490859
+    },
+    "sd_512x512": {
+      "accuracy": 64.6,
+      "f1_score": 63.24506611734999,
+      "average_precision": 73.36366311780039
+    },
+    "sdxl": {
+      "accuracy": 66.65,
+      "f1_score": 65.07281950580919,
+      "average_precision": 83.7865648936527
+    },
+    "taming": {
+      "accuracy": 70.65,
+      "f1_score": 68.65132611032116,
+      "average_precision": 90.09470414840727
+    },
+    "deepfake": {
+      "accuracy": 84.72942920681987,
+      "f1_score": 84.58293198299314,
+      "average_precision": 93.70797500772642
+    },
+    "firefly": {
+      "accuracy": 62.65,
+      "f1_score": 61.504518838693876,
+      "average_precision": 66.61571806176431
+    },
+    "midjourney_v5": {
+      "accuracy": 60.4,
+      "f1_score": 59.48849104859335,
+      "average_precision": 66.61603451115347
+    },
+    "dalle3": {
+      "accuracy": 68.3,
+      "f1_score": 66.54561879524124,
+      "average_precision": 81.11707635858863
+    },
+    "faceswap": {
+      "accuracy": 67.57142857142857,
+      "f1_score": 65.11502341330231,
+      "average_precision": 79.38045159944676
+    }
+  },
+  "../finetuned_clip/finetuned_clips/finetuned_2_epoch_40k/": {
+    "progan": {
+      "accuracy": 90.7,
+      "f1_score": 90.61886254212685,
+      "average_precision": 99.91517909914722
+    },
+    "biggan": {
+      "accuracy": 82.825,
+      "f1_score": 82.30921521863279,
+      "average_precision": 99.81547598474188
+    },
+    "cyclegan": {
+      "accuracy": 64.65,
+      "f1_score": 59.601742896235045,
+      "average_precision": 99.19988243484714
+    },
+    "eg3d": {
+      "accuracy": 69.3,
+      "f1_score": 67.7235877492617,
+      "average_precision": 88.7367252535536
+    },
+    "gaugan": {
+      "accuracy": 83.75,
+      "f1_score": 83.3092601508586,
+      "average_precision": 99.78673633649193
+    },
+    "stargan": {
+      "accuracy": 82.94147073536769,
+      "f1_score": 82.4302011485365,
+      "average_precision": 99.90547535102998
+    },
+    "stylegan": {
+      "accuracy": 86.0,
+      "f1_score": 85.73220780835501,
+      "average_precision": 98.93916581608235
+    },
+    "stylegan2": {
+      "accuracy": 85.5,
+      "f1_score": 85.37349536138058,
+      "average_precision": 95.86912851194501
+    },
+    "stylegan3": {
+      "accuracy": 83.36842105263158,
+      "f1_score": 83.28775786510849,
+      "average_precision": 94.59601186068959
+    },
+    "dalle2": {
+      "accuracy": 73.5,
+      "f1_score": 71.53081493847971,
+      "average_precision": 97.32868863649949
+    },
+    "glide_50_27": {
+      "accuracy": 72.9,
+      "f1_score": 70.98348842712305,
+      "average_precision": 94.13060858101379
+    },
+    "glide_100_10": {
+      "accuracy": 73.1,
+      "f1_score": 71.1657710905234,
+      "average_precision": 93.84837026761313
+    },
+    "glide_100_27": {
+      "accuracy": 72.95,
+      "f1_score": 71.02904458769271,
+      "average_precision": 92.85375833285308
+    },
+    "guided": {
+      "accuracy": 63.3,
+      "f1_score": 62.32338444828396,
+      "average_precision": 71.50159086980761
+    },
+    "ldm_100": {
+      "accuracy": 73.35,
+      "f1_score": 71.39384688623633,
+      "average_precision": 96.55666478411071
+    },
+    "ldm_200": {
+      "accuracy": 72.95,
+      "f1_score": 71.02904458769271,
+      "average_precision": 96.22505500335555
+    },
+    "ldm_200_cfg": {
+      "accuracy": 71.7,
+      "f1_score": 69.8928162983058,
+      "average_precision": 91.4249993596012
+    },
+    "sd_512x512": {
+      "accuracy": 65.4,
+      "f1_score": 64.21464593184649,
+      "average_precision": 75.38786188909188
+    },
+    "sdxl": {
+      "accuracy": 67.25,
+      "f1_score": 65.87829909311812,
+      "average_precision": 84.00953201057337
+    },
+    "taming": {
+      "accuracy": 71.95,
+      "f1_score": 70.11964127590728,
+      "average_precision": 91.52330881399479
+    },
+    "deepfake": {
+      "accuracy": 87.67605633802818,
+      "f1_score": 87.6381000512791,
+      "average_precision": 94.85611116646453
+    },
+    "firefly": {
+      "accuracy": 61.4,
+      "f1_score": 60.60565237447899,
+      "average_precision": 65.5919562788585
+    },
+    "midjourney_v5": {
+      "accuracy": 59.3,
+      "f1_score": 58.69525726156659,
+      "average_precision": 64.06683706455128
+    },
+    "dalle3": {
+      "accuracy": 68.3,
+      "f1_score": 66.82292337141892,
+      "average_precision": 79.89717870273678
+    },
+    "faceswap": {
+      "accuracy": 70.0,
+      "f1_score": 68.33532673580838,
+      "average_precision": 81.09040230449843
+    }
+  },
+  "../finetuned_clip/finetuned_clips/finetuned_2_epoch_60k/": {
+    "progan": {
+      "accuracy": 91.5125,
+      "f1_score": 91.45091439096444,
+      "average_precision": 99.90938357390678
+    },
+    "biggan": {
+      "accuracy": 81.85,
+      "f1_score": 81.2387539121462,
+      "average_precision": 99.78700077707657
+    },
+    "cyclegan": {
+      "accuracy": 64.25,
+      "f1_score": 59.01140084986851,
+      "average_precision": 98.98445047071178
+    },
+    "eg3d": {
+      "accuracy": 68.5,
+      "f1_score": 66.5058949624866,
+      "average_precision": 89.274550013907
+    },
+    "gaugan": {
+      "accuracy": 82.13,
+      "f1_score": 81.54052071081783,
+      "average_precision": 99.64695803232809
+    },
+    "stargan": {
+      "accuracy": 82.81640820410205,
+      "f1_score": 82.29358043609365,
+      "average_precision": 99.85228113977573
+    },
+    "stylegan": {
+      "accuracy": 86.7,
+      "f1_score": 86.47136608686807,
+      "average_precision": 99.2337703969162
+    },
+    "stylegan2": {
+      "accuracy": 86.2,
+      "f1_score": 86.06617958877057,
+      "average_precision": 96.94029317798308
+    },
+    "stylegan3": {
+      "accuracy": 84.47368421052632,
+      "f1_score": 84.37499564423385,
+      "average_precision": 95.17264469224752
+    },
+    "dalle2": {
+      "accuracy": 72.0,
+      "f1_score": 69.63647266902997,
+      "average_precision": 97.08577897839447
+    },
+    "glide_50_27": {
+      "accuracy": 71.5,
+      "f1_score": 69.18665749834581,
+      "average_precision": 93.84572901080539
+    },
+    "glide_100_10": {
+      "accuracy": 71.65,
+      "f1_score": 69.3214937023844,
+      "average_precision": 93.4371843069721
+    },
+    "glide_100_27": {
+      "accuracy": 71.4,
+      "f1_score": 69.09681664795548,
+      "average_precision": 92.63581600464448
+    },
+    "guided": {
+      "accuracy": 62.85,
+      "f1_score": 61.49635627530364,
+      "average_precision": 71.73378028288285
+    },
+    "ldm_100": {
+      "accuracy": 71.9,
+      "f1_score": 69.54642598589382,
+      "average_precision": 96.61164451589121
+    },
+    "ldm_200": {
+      "accuracy": 71.65,
+      "f1_score": 69.3214937023844,
+      "average_precision": 96.38070320534847
+    },
+    "ldm_200_cfg": {
+      "accuracy": 70.8,
+      "f1_score": 68.55857204232534,
+      "average_precision": 92.31308607975804
+    },
+    "sd_512x512": {
+      "accuracy": 65.7,
+      "f1_score": 64.02138157894737,
+      "average_precision": 78.61919443752643
+    },
+    "sdxl": {
+      "accuracy": 66.75,
+      "f1_score": 64.95195651091194,
+      "average_precision": 85.89602622974051
+    },
+    "taming": {
+      "accuracy": 70.65,
+      "f1_score": 68.42421502302692,
+      "average_precision": 92.00153898779998
+    },
+    "deepfake": {
+      "accuracy": 88.34321719792439,
+      "f1_score": 88.31629961512557,
+      "average_precision": 94.82027768696737
+    },
+    "firefly": {
+      "accuracy": 61.35,
+      "f1_score": 60.1646493471357,
+      "average_precision": 67.15851874308198
+    },
+    "midjourney_v5": {
+      "accuracy": 59.15,
+      "f1_score": 58.20329416362976,
+      "average_precision": 65.46958552974156
+    },
+    "dalle3": {
+      "accuracy": 67.15,
+      "f1_score": 65.30673833439076,
+      "average_precision": 79.15076115119714
+    },
+    "faceswap": {
+      "accuracy": 69.44642857142857,
+      "f1_score": 67.80352001989263,
+      "average_precision": 80.66629475283116
+    }
+  },
+  "../finetuned_clip/finetuned_clips/finetuned_2_epoch_80k/": {
+    "progan": {
+      "accuracy": 92.3625,
+      "f1_score": 92.31768799374237,
+      "average_precision": 99.93281465794439
+    },
+    "biggan": {
+      "accuracy": 85.175,
+      "f1_score": 84.84643181063612,
+      "average_precision": 99.8456755589287
+    },
+    "cyclegan": {
+      "accuracy": 68.5,
+      "f1_score": 65.03011295828593,
+      "average_precision": 99.40321768768335
+    },
+    "eg3d": {
+      "accuracy": 74.05,
+      "f1_score": 72.974373300972,
+      "average_precision": 92.89343536642207
+    },
+    "gaugan": {
+      "accuracy": 85.43,
+      "f1_score": 85.11399253948451,
+      "average_precision": 99.78832922472364
+    },
+    "stargan": {
+      "accuracy": 86.51825912956478,
+      "f1_score": 86.26868235687385,
+      "average_precision": 99.94298375026585
+    },
+    "stylegan": {
+      "accuracy": 86.8,
+      "f1_score": 86.5730851388465,
+      "average_precision": 99.3734513593261
+    },
+    "stylegan2": {
+      "accuracy": 87.7,
+      "f1_score": 87.6207729468599,
+      "average_precision": 97.42248883421226
+    },
+    "stylegan3": {
+      "accuracy": 86.21052631578948,
+      "f1_score": 86.1515418580636,
+      "average_precision": 96.28041706956877
+    },
+    "dalle2": {
+      "accuracy": 76.95,
+      "f1_score": 75.6802089919394,
+      "average_precision": 97.93172963171784
+    },
+    "glide_50_27": {
+      "accuracy": 76.45,
+      "f1_score": 75.21177225039479,
+      "average_precision": 95.28033765415681
+    },
+    "glide_100_10": {
+      "accuracy": 76.7,
+      "f1_score": 75.44587343138123,
+      "average_precision": 95.03131362893173
+    },
+    "glide_100_27": {
+      "accuracy": 76.4,
+      "f1_score": 75.16497925328669,
+      "average_precision": 94.42178452378606
+    },
+    "guided": {
+      "accuracy": 65.2,
+      "f1_score": 64.76588041256319,
+      "average_precision": 74.1198387568014
+    },
+    "ldm_100": {
+      "accuracy": 76.95,
+      "f1_score": 75.6802089919394,
+      "average_precision": 97.65412307076451
+    },
+    "ldm_200": {
+      "accuracy": 76.5,
+      "f1_score": 75.25857422006604,
+      "average_precision": 97.3108553388683
+    },
+    "ldm_200_cfg": {
+      "accuracy": 75.55,
+      "f1_score": 74.37079381618095,
+      "average_precision": 93.8253514581802
+    },
+    "sd_512x512": {
+      "accuracy": 69.25,
+      "f1_score": 68.52763849054459,
+      "average_precision": 80.5089795840863
+    },
+    "sdxl": {
+      "accuracy": 70.25,
+      "f1_score": 69.45327261978746,
+      "average_precision": 85.88432897183878
+    },
+    "taming": {
+      "accuracy": 75.2,
+      "f1_score": 74.04443216439086,
+      "average_precision": 92.5735795354597
+    },
+    "deepfake": {
+      "accuracy": 89.02891030392884,
+      "f1_score": 89.0060606477769,
+      "average_precision": 95.30766582391578
+    },
+    "firefly": {
+      "accuracy": 63.75,
+      "f1_score": 63.40925786152094,
+      "average_precision": 68.29957908229758
+    },
+    "midjourney_v5": {
+      "accuracy": 61.65,
+      "f1_score": 61.430142167892534,
+      "average_precision": 66.56077965076948
+    },
+    "dalle3": {
+      "accuracy": 70.95,
+      "f1_score": 70.1011030428689,
+      "average_precision": 81.37255324993207
+    },
+    "faceswap": {
+      "accuracy": 71.0,
+      "f1_score": 69.63817534728274,
+      "average_precision": 82.03035599994553
+    }
+  }
+}
