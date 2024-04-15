@@ -6,12 +6,15 @@ Code and pre-trained models for our paper, [CLIPping the Deception: Adapting Vis
 * Evaluation code.
 * Training code.
 
-## Evaluation Dataset and Pre-trained Models
+## Evaluation Dataset
 The evaluation dataset can be found on: https://tinyurl.com/5b3fh7fh
 
 The dataset is processed as required by [Dassl.pytorch](https://github.com/KaiyangZhou/Dassl.pytorch). For each subset, e.g., StarGAN, two folders can be found each containing **real** - **fake** images. The sample path for StarGAN's evaluation images would be something like: ```stargan/images/val/```. In the **val** folder there are two folders, (1) ```n01440764``` - containing **real** images, (2) ```n01443537``` - containing **fake** images.
 
-The evaluation dataset can be found on: https://tinyurl.com/5dsmpnm7
+## Pre-trained Models
+Model weights can be found on: https://tinyurl.com/5dsmpnm7
+
+Download and extract **weights.zip** in the same folder as ```evaluate.py```
 
 More details about this convention will be included with the **Inference** and **Evaluation** codes (which will be uploaded soon).
 
