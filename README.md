@@ -28,6 +28,10 @@ Follow `DATASETS.md` to install the datasets.
 ## Evaluation
 For now, only `linear probing` evaluation code is made available. I will soon update it with evaluation code for other 3 approaches.
 
+After installing `dassl.pytorch`, just run `evaluate.py` as follows:
+
+`python evaluate.py --variant linearProb --model 100k --dataset [path to downloaded evaluation dataset] --output [path to folder where you want to save evaluation results]`
+
 ## Citations
 If you use this code in your research, please kindly cite the following papers:
 ```
