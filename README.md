@@ -32,6 +32,8 @@ After installing `dassl.pytorch`, just run `evaluate.py` as follows:
 
 `python evaluate.py --variant linearProb --model 100k --dataset [path to downloaded evaluation dataset] --output [path to folder where you want to save evaluation results]`
 
+`--model` argument points to the specific weight file, e.g., `100k` means the model trained using 100k `real` and 100k `fake` images.
+
 ## Citations
 If you use this code in your research, please kindly cite the following papers:
 ```
