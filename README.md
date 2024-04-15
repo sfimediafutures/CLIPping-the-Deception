@@ -20,9 +20,36 @@ Model weights can be found on: https://tinyurl.com/5dsmpnm7
 Download and extract **weights.zip** in the same folder as `evaluate.py`
 
 ## Installation Guide
-This code is built on top of [Dassl.pytorch](https://github.com/KaiyangZhou/Dassl.pytorch), so you need to install the `dassl` environment first. `cd` to `dassl` folder and simply follow the instructions described here to install `dassl` as well as PyTorch. 
+This code is built on top of [Dassl.pytorch](https://github.com/KaiyangZhou/Dassl.pytorch), so you need to install the `dassl` environment first. `cd` to `dassl` folder and simply follow the instructions described below: 
 
-After installing dassl, you also need to install `CoOp` by following instructions [here](https://github.com/KaiyangZhou/CoOp/tree/main). Run `pip install -r requirements.txt` under the main directory to install a few more packages required by CLIP (this should be done when dassl is activated). Then, you are ready to go.
+```bash
+# Clone this repo
+git clone https://github.com/sohailahmedkhan/CLIPping-the-Deception.git
+cd CLIPping-the-Deception/
+cd dassl/
+
+# Create a conda environment
+conda create -y -n dassl python=3.8
+
+# Activate the environment
+conda activate dassl
+
+# Install torch (requires version >= 1.8.1) and torchvision
+# Please refer to https://pytorch.org/ if you need a different cuda version
+conda install pytorch torchvision cudatoolkit=10.2 -c pytorch
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Install this library (no need to re-build if the source code is modified)
+python setup.py develop
+
+cd..
+```
+
+After installing dassl, you also need to install [CoOp](https://github.com/KaiyangZhou/CoOp/tree/main). 
+<br />
+Run `pip install -r requirements.txt` under the main directory to install a few more packages required by CLIP (this should be done when dassl is activated). Then, you are ready to go.
 
 Follow `DATASETS.md` to install the datasets.
 
