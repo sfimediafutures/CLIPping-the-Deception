@@ -16,14 +16,52 @@ More details about this convention will be included with the **Inference** and *
 ## Pre-trained Models
 Model weights can be found on: https://tinyurl.com/5dsmpnm7
 
+**Important!!** <br />
 Download and extract **weights.zip** in the same folder as `evaluate.py`
 
 ## Installation Guide
-This code is built on top of [Dassl.pytorch](https://github.com/KaiyangZhou/Dassl.pytorch), so you need to install the `dassl` environment first. Simply follow the instructions described here to install `dassl` as well as PyTorch. 
+This code is built on top of [Dassl.pytorch](https://github.com/KaiyangZhou/Dassl.pytorch), so you need to install the `dassl` environment first. `cd` to `dassl` folder and simply follow the instructions described below: 
 
-After installing dassl, you also need to install `CoOp` by following instructions [here](https://github.com/KaiyangZhou/CoOp/tree/main). Run `pip install -r requirements.txt` under `CoOp/` to install a few more packages required by CLIP (this should be done when dassl is activated). Then, you are ready to go.
+```bash
+# Clone this repo
+git clone https://github.com/sohailahmedkhan/CLIPping-the-Deception.git
+cd CLIPping-the-Deception/
+cd dassl/
 
-Follow `DATASETS.md` to install the datasets.
+# Create a conda environment
+conda create -y -n dassl python=3.8
+
+# Activate the environment
+conda activate dassl
+
+# Install torch (requires version >= 1.8.1) and torchvision
+# Please refer to https://pytorch.org/ if you need a different cuda version
+conda install pytorch torchvision cudatoolkit=10.2 -c pytorch
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Install this library (no need to re-build if the source code is modified)
+python setup.py develop
+
+cd..
+```
+
+After installing dassl, you also need to install [CoOp](https://github.com/KaiyangZhou/CoOp/tree/main). 
+<br />
+
+All the required files are already available in this repository. Just run `pip install -r requirements.txt` under the main directory to install `CoOp` along with a few more packages required by CLIP (this should be done when dassl is activated). Then, you are ready to go.
+
+If you would like to add more datasets besides the ones in our paper, follow `DATASETS.md` to install the datasets.
+
+## Evaluation
+For now, only `linear probing` evaluation code is made available. I will soon update it with evaluation code for other 3 approaches.
+
+After installing `dassl.pytorch`, just run `evaluate.py` as follows:
+
+`python evaluate.py --variant linearProb --model 100k --dataset [path to downloaded evaluation dataset] --output [path to folder where you want to save evaluation results]`
+
+`--model` argument points to the specific weight file, e.g., `100k` means the model trained using 100k `real` and 100k `fake` images.
 
 ## Citations
 If you use this code in your research, please kindly cite the following papers:
