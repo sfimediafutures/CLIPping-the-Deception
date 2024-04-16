@@ -53,7 +53,7 @@ python setup.py develop
 cd..
 ```
 
-After installing dassl, you also need to install [CoOp](https://github.com/KaiyangZhou/CoOp/tree/main). 
+After installing dassl, you also need to install [CoOp](https://github.com/KaiyangZhou/CoOp/tree/main), by following instructions given below. 
 <br />
 
 All the required files are already available in this repository. Just run `pip install -r requirements.txt` under the main directory to install `CoOp` along with a few more packages required by CLIP (this should be done when dassl is activated). Then, you are ready to go.
