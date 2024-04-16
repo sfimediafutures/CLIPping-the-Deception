@@ -3,6 +3,10 @@ Code and pre-trained models for our paper, [CLIPping the Deception: Adapting Vis
 
 <img src="assets/main.png" alt="Alt text" title="Optional title">
 
+## News
+* **April-15-2024:** Added linear probing evaluation code
+* **April-08-2024:** Paper accepted at ICMR 2024
+
 ## TODO
 * Inference code.
 * Evaluation code.
