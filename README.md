@@ -1,5 +1,11 @@
-# CLIPping the Deception: Adapting Vision Language Models for Universal Deepfake Detection
+# CLIPping the Deception: Adapting Vision Language Models for Universal Deepfake Detection (Upcoming - ICMR 2024)
 Code and pre-trained models for our paper, [CLIPping the Deception: Adapting Vision-Language Models for Universal Deepfake Detection](https://arxiv.org/pdf/2402.12927).
+
+<img src="assets/main.png" alt="Alt text" title="Optional title">
+
+## News
+* **April-15-2024:** Added linear probing evaluation code
+* **April-08-2024:** Paper accepted at ICMR 2024
 
 ## TODO
 * Inference code.
@@ -47,7 +53,7 @@ python setup.py develop
 cd..
 ```
 
-After installing dassl, you also need to install [CoOp](https://github.com/KaiyangZhou/CoOp/tree/main). 
+After installing dassl, you also need to install [CoOp](https://github.com/KaiyangZhou/CoOp/tree/main), by following instructions given below. 
 <br />
 
 All the required files are already available in this repository. Just run `pip install -r requirements.txt` under the main directory to install `CoOp` along with a few more packages required by CLIP (this should be done when dassl is activated). Then, you are ready to go.
