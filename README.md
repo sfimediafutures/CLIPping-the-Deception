@@ -61,13 +61,17 @@ All the required files are already available in this repository. Just run `pip i
 If you would like to add more datasets besides the ones in our paper, follow `DATASETS.md` to install the datasets.
 
 ## Evaluation
-For now, only `linear probing` evaluation code is made available. I will soon update it with evaluation code for other 3 approaches.
+For now, only `linear probing` and `prompt tuning` evaluation code is made available. I will soon update it with evaluation code for other 2 approaches.
 
 After installing `dassl.pytorch`, just run `evaluate.py` as follows:
 
-`python evaluate.py --variant linearProb --model 100k --dataset [path to downloaded evaluation dataset] --output [path to folder where you want to save evaluation results]`
+### Linear Probing
+`python evaluate.py --variant linearProbing --model 100k --dataset [path to downloaded evaluation dataset] --output [path to folder where you want to save evaluation results]`
 
-`--model` argument points to the specific weight file, e.g., `100k` means the model trained using 100k `real` and 100k `fake` images.
+### Prompt Tuning
+`python evaluate.py --variant promptTuning --model 100k_16 --dataset [path to downloaded evaluation dataset] --output [path to folder where you want to save evaluation results]`
+
+`--model` argument points to the specific weight file, e.g., `100k` means the model trained using 100k `real` and 100k `fake` images. `16` refers to the size of context window in prompt tuning.
 
 ## Citations
 If you use this code in your research, please kindly cite the following papers:
