@@ -49,10 +49,10 @@ def print_args(args, cfg):
     optkeys.sort()
     for key in optkeys:
         print("{}: {}".format(key, args.__dict__[key]))
-    print("************")
-    print("** Config **")
-    print("************")
-    print(cfg)
+    # print("************")
+    # print("** Config **")
+    # print("************")
+    # print(cfg)
 
 def reset_cfg(cfg, args):
     if args.root:
@@ -119,6 +119,7 @@ def extend_cfg(cfg):
 
 
 def setup_cfg(args):
+    print(args)
     cfg = get_cfg_default()
     extend_cfg(cfg)
 
@@ -134,15 +135,15 @@ def setup_cfg(args):
     reset_cfg(cfg, args)
 
     # 4. From optional input arguments
-    cfg.merge_from_list(args.opts)
+    # cfg.merge_from_list(args.opts)
 
     cfg.freeze()
 
     return cfg
 
-def get_parsed_args(model_dir, dataset_name, num_ctx_tokens):
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--root", type=str, default="../Datasets/ICMRDataset/test/deepfake_eval/", help="path to dataset")
+def get_parsed_args(model_dir, dataset_name, num_ctx_tokens, dataset_path):
+    parser = argparse.ArgumentParser(allow_abbrev=True)
+    parser.add_argument("--root", type=str, default=dataset_path, help="path to dataset")
     # parser.add_argument("--deepfake-set", default="biggan", action="store_true")        
     parser.add_argument("--output-dir", type=str, default="../CoOp/outputs/", help="output directory")
     parser.add_argument(
@@ -164,9 +165,9 @@ def get_parsed_args(model_dir, dataset_name, num_ctx_tokens):
         "--transforms", type=str, nargs="+", help="data augmentation methods"
     )
     parser.add_argument(
-        "--config-file", type=str, default="../CoOp/configs/trainers/coop/vit_l14_ep2.yaml", help="path to config file"
+        "--config-file", type=str, default="./configs/trainers/coop/vit_l14_ep2.yaml", help="path to config file"
     )
-    parser.add_argument("--dataset-config-file", type=str, default="../CoOp/configs/datasets/"+str(dataset_name)+".yaml",
+    parser.add_argument("--dataset-config-file", type=str, default="./configs/datasets/"+str(dataset_name)+".yaml",
         help="path to config file for dataset setup",)
     parser.add_argument("--trainer", type=str, default="CoOp", help="name of trainer")
     parser.add_argument("--backbone", type=str, default="", help="name of CNN backbone")
@@ -194,6 +195,6 @@ def get_parsed_args(model_dir, dataset_name, num_ctx_tokens):
         "--num_ctx_tokens", default=num_ctx_tokens, help="do not call trainer.train()"
     )
     
-    args = parser.parse_args()
+    args, unknown_args = parser.parse_known_args()
 
     return args

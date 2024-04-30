@@ -103,10 +103,10 @@ class Classification(EvaluatorBase):
             "=> result\n"
             f"* total: {self._total:,}\n"
             f"* correct: {self._correct:,}\n"
-            f"* average_precision: {average_precision:.1f}%\n"
-            f"* accuracy: {acc:.1f}%\n"
-            f"* error: {err:.1f}%\n"
-            f"* macro_f1: {macro_f1:.1f}%"
+            f"* average_precision: {average_precision:.2f}%\n"
+            f"* accuracy: {acc:.2f}%\n"
+            f"* error: {err:.2f}%\n"
+            f"* macro_f1: {macro_f1:.2f}%"
         )
 
         if self._per_class_res is not None:

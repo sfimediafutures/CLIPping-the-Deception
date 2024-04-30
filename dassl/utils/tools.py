@@ -210,10 +210,10 @@ def read_image(path):
     Returns:
         PIL image
     """
-    img = Image.open(path).convert("RGB")
-    return data_augment_test(img)
+    # img = Image.open(path).convert("RGB")
+    # return data_augment_test(img)
     
-    # return Image.open(path).convert("RGB")
+    return Image.open(path).convert("RGB")
 
 
 def collect_env_info():

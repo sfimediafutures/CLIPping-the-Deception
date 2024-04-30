@@ -1,6 +1,7 @@
 from __future__ import print_function
 import glob
 import clip
+import re
 from itertools import chain
 import os
 import cv2
@@ -24,10 +25,51 @@ import numpy as np
 from sklearn.metrics import average_precision_score, accuracy_score, roc_auc_score, precision_recall_curve, f1_score
 from scipy.ndimage import gaussian_filter
 
-# Local imports
+# Linear Probing Imports
 from utils import class_labels, get_dataset, get_transforms, DeepFakeSet, get_class_based_training_data
 from models import clipmodel, dinov2, CLIPModelOhja
 from trainer import train_model
+
+# Prompt Tuning Imports
+from dassl.utils import setup_logger, set_random_seed, collect_env_info
+from dassl.config import get_cfg_default
+from dassl.engine import build_trainer
+
+import datasets.imagenet
+import datasets.guided
+import datasets.biggan
+import datasets.cyclegan
+import datasets.dalle2
+import datasets.deepfake
+import datasets.gaugan
+import datasets.glide_50_27
+import datasets.glide_100_10
+import datasets.glide_100_27
+import datasets.ldm_100
+import datasets.ldm_200
+import datasets.ldm_200_cfg
+import datasets.stargan
+import datasets.stylegan
+import datasets.stylegan2
+import datasets.stylegan3
+import datasets.sd_512x512
+import datasets.sdxl
+import datasets.dalle3
+import datasets.taming
+import datasets.eg3d
+import datasets.firefly
+import datasets.midjourney_v5
+import datasets.progan
+import datasets.faceswap
+
+import trainers.coop
+import trainers.clip_adapter
+import trainers.clip_zero_shot
+import trainers.cocoop
+import trainers.zsclip
+
+from eval_utils import print_args, reset_cfg, extend_cfg, setup_cfg, get_parsed_args
+# from eval_utils_fine_tuned import print_args, reset_cfg, extend_cfg, setup_cfg, get_parsed_args
 
 def seed_everything(seed):
         random.seed(seed)
@@ -62,7 +104,11 @@ def update_and_save_evaluation(model_name, dataset_name, accuracy, f1_score, ave
     model_evaluations[model_name][dataset_name]["f1_score"] = f1_score
     model_evaluations[model_name][dataset_name]["average_precision"] = average_precision
 
-    save_file_name = output_path + '/' + model_name.split('/')[-1].split('.')[0]+'.json'
+    if 'context' in model_name:
+        save_file_name = output_path + '/' + model_name.split('/')[1]+'.json'
+    else:
+        save_file_name = output_path + '/' + model_name.split('/')[-1].split('.')[0]+'.json'
+        
     # Save the updated dictionary to a JSON file
     with open(save_file_name, "w") as json_file:
         json.dump(model_evaluations, json_file, indent=2)
@@ -146,6 +192,45 @@ def eval_linear_prob(args, dataset_path, dataset_names, image_extensions, device
             
         torch.cuda.empty_cache()
 
+def dummy_parse_args():
+    pass
+
+def eval_prompt_tuning(args, dataset_path, dataset_names, image_extensions, device):
+    print("*************")
+    print("Evaluating Prompt Tuning Method!")
+
+    if '100k_16' in args.model:
+        model_names = ['weights/100000_16context_best_until_now/']
+    elif '100k_8' in args.model:
+        model_names = ['weights/100000_8context/']
+    elif '100k_4' in args.model:
+        model_names = ['weights/100000_4context/']
+    
+    model_evaluations = {}
+    splitted_string = model_names[0].split('/')[-2].split('_')[1]
+    num_ctx_tokens = int(re.split('(\d+)',splitted_string)[1])
+    print('Num. Context Tokens: ', num_ctx_tokens)
+    args.parser = dummy_parse_args()
+    for dataset in dataset_names:
+        coop_args = get_parsed_args(model_names[0], dataset, num_ctx_tokens, dataset_path)
+        cfg = setup_cfg(coop_args)
+        print("Setting fixed seed: {}".format(cfg.SEED))
+        set_random_seed(cfg.SEED)
+        if torch.cuda.is_available() and cfg.USE_CUDA:
+            print('Using CUDA!!!')
+            torch.backends.cudnn.benchmark = True
+
+        print_args(coop_args, cfg)
+        print("Collecting env info ...")
+        print("** System info **\n{}\n".format(collect_env_info()))
+
+        trainer = build_trainer(cfg)
+        trainer.load_model(coop_args.model_dir, epoch=coop_args.load_epoch)
+
+        results, results_dict = trainer.test()
+        update_and_save_evaluation(model_names[0], dataset, results_dict['accuracy'], results_dict['macro_f1'], results_dict['average_precision'], args.output, model_evaluations)
+        
+
 def main(args):
     print("Starting Evaluation!")
     
@@ -164,18 +249,19 @@ def main(args):
                  'dalle2', 'glide_50_27', 'glide_100_10', 'glide_100_27', 'guided', 'ldm_100', 'ldm_200', 'ldm_200_cfg',
                  'sd_512x512', 'sdxl', 'taming', 'deepfake', 'firefly', 'midjourney_v5', 'dalle3', 'faceswap']
 
-    if args.variant == 'linearProb':
+    if args.variant == 'linearProbing':
         eval_linear_prob(args, dataset_path, dataset_names, image_extensions, device)
+    if args.variant == 'promptTuning':
+        eval_prompt_tuning(args, dataset_path, dataset_names, image_extensions, device)
     else:
         print('More methods coming soon')
 
     print('Evaluation completed!!')
 
 if __name__ == "__main__":
-
     parser = argparse.ArgumentParser()
-    parser.add_argument("--variant", type=str, default="linearProb", help="name of the adaptation method")
-    parser.add_argument("--model", type=str, default="100k", help="name of linear probing model to evaluate")
+    parser.add_argument("--variant", type=str, default="linearProbing", choices=["linearProbing", "promptTuning", "fineTuning", "adapterNetwork"], help="name of the adaptation method")
+    parser.add_argument("--model", type=str, choices=["100k", "100k_16", "100k_8", "100k_4"], default="100k", help="name of linear probing model to evaluate")
     parser.add_argument("--dataset", type=str, default="", help="path to dataset")
     parser.add_argument("--output", type=str, default="", help="output directory to write results")
     
