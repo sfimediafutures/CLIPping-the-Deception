@@ -41,7 +41,7 @@ import trainers.cocoop
 import trainers.zsclip
 
 
-def print_args(args, cfg):
+def print_args_fine_tuned(args, cfg):
     print("***************")
     print("** Arguments **")
     print("***************")
@@ -54,7 +54,7 @@ def print_args(args, cfg):
     print("************")
     print(cfg)
 
-def reset_cfg(cfg, args):
+def reset_cfg_fine_tuned(cfg, args):
     if args.root:
         cfg.DATASET.ROOT = args.root
 
@@ -89,7 +89,7 @@ def reset_cfg(cfg, args):
     #     cfg.TRAINER.COOP.N_CTX = args.num_ctx_tokens
 
 
-def extend_cfg(cfg):
+def extend_cfg_fine_tuned(cfg):
     """
     Add new config variables.
 
@@ -118,9 +118,9 @@ def extend_cfg(cfg):
 
 
 
-def setup_cfg(args):
+def setup_cfg_fine_tuned(args):
     cfg = get_cfg_default()
-    extend_cfg(cfg)
+    extend_cfg_fine_tuned(cfg)
 
     # 1. From the dataset config file
     if args.dataset_config_file:
@@ -131,18 +131,18 @@ def setup_cfg(args):
         cfg.merge_from_file(args.config_file)
 
     # 3. From input arguments
-    reset_cfg(cfg, args)
+    reset_cfg_fine_tuned(cfg, args)
 
     # 4. From optional input arguments
-    cfg.merge_from_list(args.opts)
+    # cfg.merge_from_list(args.opts)
 
     cfg.freeze()
 
     return cfg
 
-def get_parsed_args(model_dir, dataset_name):
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--root", type=str, default="../Datasets/ICMRDataset/test/deepfake_eval/", help="path to dataset")
+def get_parsed_args_fine_tuned(model_dir, dataset_name, dataset_path):
+    parser = argparse.ArgumentParser(allow_abbrev=True)
+    parser.add_argument("--root", type=str, default=dataset_path, help="path to dataset")
     # parser.add_argument("--deepfake-set", default="biggan", action="store_true")        
     parser.add_argument("--output-dir", type=str, default="../CoOp/outputs/", help="output directory")
     parser.add_argument(
@@ -164,9 +164,9 @@ def get_parsed_args(model_dir, dataset_name):
         "--transforms", type=str, nargs="+", help="data augmentation methods"
     )
     parser.add_argument(
-        "--config-file", type=str, default="../CoOp/configs/trainers/coop/vit_l14_ep2.yaml", help="path to config file"
+        "--config-file", type=str, default="./configs/trainers/coop/vit_l14_ep1.yaml", help="path to config file"
     )
-    parser.add_argument("--dataset-config-file", type=str, default="../CoOp/configs/datasets/"+str(dataset_name)+".yaml",
+    parser.add_argument("--dataset-config-file", type=str, default="./configs/datasets/"+str(dataset_name)+".yaml",
         help="path to config file for dataset setup",)
     parser.add_argument("--trainer", type=str, default="CLIP_Adapter", help="name of trainer")
     parser.add_argument("--backbone", type=str, default="", help="name of CNN backbone")
@@ -194,6 +194,6 @@ def get_parsed_args(model_dir, dataset_name):
     #     "--num_ctx_tokens", default=num_ctx_tokens, help="do not call trainer.train()"
     # )
     
-    args = parser.parse_args()
+    args, unknown_args = parser.parse_known_args()
 
     return args

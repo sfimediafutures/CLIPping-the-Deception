@@ -69,7 +69,7 @@ import trainers.cocoop
 import trainers.zsclip
 
 from eval_utils import print_args, reset_cfg, extend_cfg, setup_cfg, get_parsed_args
-# from eval_utils_fine_tuned import print_args, reset_cfg, extend_cfg, setup_cfg, get_parsed_args
+from eval_utils_fine_tuned import print_args_fine_tuned, reset_cfg_fine_tuned, extend_cfg_fine_tuned, setup_cfg_fine_tuned, get_parsed_args_fine_tuned
 
 def seed_everything(seed):
         random.seed(seed)
@@ -104,8 +104,13 @@ def update_and_save_evaluation(model_name, dataset_name, accuracy, f1_score, ave
     model_evaluations[model_name][dataset_name]["f1_score"] = f1_score
     model_evaluations[model_name][dataset_name]["average_precision"] = average_precision
 
+    output_path = output_path.replace('\\','/')
+    model_name = model_name.replace('\\','/')
+    
     if 'context' in model_name:
-        save_file_name = output_path + '/' + model_name.split('/')[1]+'.json'
+        save_file_name = output_path + model_name.split('/')[1]+'.json'
+    elif 'finetuned' in model_name:
+        save_file_name = output_path + model_name.split('/')[1]+'.json'
     else:
         save_file_name = output_path + '/' + model_name.split('/')[-1].split('.')[0]+'.json'
         
@@ -195,6 +200,43 @@ def eval_linear_prob(args, dataset_path, dataset_names, image_extensions, device
 def dummy_parse_args():
     pass
 
+def eval_fine_tuning(args, dataset_path, dataset_names, image_extensions, device):
+    print("*************")
+    print("Evaluating Fine-Tuning Method!")
+
+    if '100k' in args.model:
+        model_names = ['weights/finetuned_1_epoch_100k/']
+    elif '80k' in args.model:
+        model_names = ['weights/finetuned_1_epoch_80k/']
+    elif '60k' in args.model:
+        model_names = ['weights/finetuned_1_epoch_60k/']
+    elif '40k' in args.model:
+        model_names = ['weights/finetuned_1_epoch_40k/']
+    elif '20k' in args.model:
+        model_names = ['weights/finetuned_1_epoch_20k/']
+    
+    model_evaluations = {}
+    args.parser = dummy_parse_args()
+    for dataset in dataset_names:
+        coop_args = get_parsed_args_fine_tuned(model_names[0], dataset, dataset_path)
+        cfg = setup_cfg_fine_tuned(coop_args)
+        print("Setting fixed seed: {}".format(cfg.SEED))
+        set_random_seed(cfg.SEED)
+        if torch.cuda.is_available() and cfg.USE_CUDA:
+            print('Using CUDA!!!')
+            torch.backends.cudnn.benchmark = True
+
+        print_args(coop_args, cfg)
+        print("Collecting env info ...")
+        print("** System info **\n{}\n".format(collect_env_info()))
+
+        trainer = build_trainer(cfg)
+        trainer.load_model(coop_args.model_dir, epoch=coop_args.load_epoch)
+
+        results, results_dict = trainer.test()
+        update_and_save_evaluation(model_names[0], dataset, results_dict['accuracy'], results_dict['macro_f1'], results_dict['average_precision'], args.output, model_evaluations)
+
+
 def eval_prompt_tuning(args, dataset_path, dataset_names, image_extensions, device):
     print("*************")
     print("Evaluating Prompt Tuning Method!")
@@ -240,7 +282,7 @@ def main(args):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print("Using device:", device)
 
-    image_extensions = ['*.jpg', '*.jpeg', '*.png', '*.gif', '*.bmp', '*.tiff', '*.tif']  # Add more extensions as needed
+    image_extensions = ['*.jpg', '*.jpeg', '*.png', '*.gif', '*.bmp', '*.tiff', '*.tif']
     dataset_path = args.dataset.replace("\\", "/")
     print("Dataset path: " + dataset_path)
     print("Output path: " + args.output)
@@ -251,8 +293,10 @@ def main(args):
 
     if args.variant == 'linearProbing':
         eval_linear_prob(args, dataset_path, dataset_names, image_extensions, device)
-    if args.variant == 'promptTuning':
+    elif args.variant == 'promptTuning':
         eval_prompt_tuning(args, dataset_path, dataset_names, image_extensions, device)
+    elif args.variant == 'fineTuning':
+        eval_fine_tuning(args, dataset_path, dataset_names, image_extensions, device)
     else:
         print('More methods coming soon')
 
