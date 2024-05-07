@@ -4,6 +4,7 @@ Code and pre-trained models for our paper, [CLIPping the Deception: Adapting Vis
 <img src="assets/main.png" alt="Alt text" title="Optional title">
 
 ## News
+* **May-07-2024:** Added clip-adapter evaluation code
 * **May-06-2024:** Added fine-tuning evaluation code
 * **April-30-2024:** Added prompt tuning evaluation code
 * **April-15-2024:** Added linear probing evaluation code
