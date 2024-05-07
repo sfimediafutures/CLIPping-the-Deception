@@ -4,7 +4,7 @@ Code and pre-trained models for our paper, [CLIPping the Deception: Adapting Vis
 <img src="assets/main.png" alt="Alt text" title="Optional title">
 
 ## News
-* **May-07-2024:** Added clip-adapter evaluation code
+* **May-07-2024:** Added adapter network evaluation code
 * **May-06-2024:** Added fine-tuning evaluation code
 * **April-30-2024:** Added prompt tuning evaluation code
 * **April-15-2024:** Added linear probing evaluation code
@@ -76,6 +76,9 @@ After installing `dassl.pytorch`, just run `evaluate.py` as follows:
 
 ### Prompt Tuning
 `python evaluate.py --variant promptTuning --model 100k_16 --dataset [path to downloaded evaluation dataset] --output [path to folder where you want to save evaluation results]`
+
+### Adapter Network
+`python evaluate.py --variant adapterNetwork --model 100k --dataset [path to downloaded evaluation dataset] --output [path to folder where you want to save evaluation results]`
 
 `--model` argument points to the specific weight file, e.g., `100k` means the model trained using 100k `real` and 100k `fake` images. `16` refers to the size of context window in prompt tuning.
 
