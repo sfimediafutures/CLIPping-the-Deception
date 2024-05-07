@@ -4,6 +4,7 @@ Code and pre-trained models for our paper, [CLIPping the Deception: Adapting Vis
 <img src="assets/main.png" alt="Alt text" title="Optional title">
 
 ## News
+* **May-06-2024:** Added fine-tuning evaluation code
 * **April-30-2024:** Added prompt tuning evaluation code
 * **April-15-2024:** Added linear probing evaluation code
 * **April-08-2024:** Paper accepted at ICMR 2024
@@ -68,6 +69,9 @@ After installing `dassl.pytorch`, just run `evaluate.py` as follows:
 
 ### Linear Probing
 `python evaluate.py --variant linearProbing --model 100k --dataset [path to downloaded evaluation dataset] --output [path to folder where you want to save evaluation results]`
+
+### Fine Tuning
+`python evaluate.py --variant fineTuning --model 100k --dataset [path to downloaded evaluation dataset] --output [path to folder where you want to save evaluation results]`
 
 ### Prompt Tuning
 `python evaluate.py --variant promptTuning --model 100k_16 --dataset [path to downloaded evaluation dataset] --output [path to folder where you want to save evaluation results]`
