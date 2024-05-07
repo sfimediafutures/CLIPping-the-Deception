@@ -69,16 +69,16 @@ For now, only `linear probing` and `prompt tuning` evaluation code is made avail
 After installing `dassl.pytorch`, just run `evaluate.py` as follows:
 
 ### Linear Probing
-`python evaluate.py --variant linearProbing --model 100k --dataset [path to downloaded evaluation dataset] --output [path to folder where you want to save evaluation results]`
+`python evaluate.py --variant linearProbing --model 100k --dataset [path to downloaded evaluation dataset] --output [path to folder where you would like to save evaluation results]`
 
 ### Fine Tuning
-`python evaluate.py --variant fineTuning --model 100k --dataset [path to downloaded evaluation dataset] --output [path to folder where you want to save evaluation results]`
+`python evaluate.py --variant fineTuning --model 100k --dataset [path to downloaded evaluation dataset] --output [path to folder where you would like to save evaluation results]`
 
 ### Prompt Tuning
-`python evaluate.py --variant promptTuning --model 100k_16 --dataset [path to downloaded evaluation dataset] --output [path to folder where you want to save evaluation results]`
+`python evaluate.py --variant promptTuning --model 100k_16 --dataset [path to downloaded evaluation dataset] --output [path to folder where you would like to save evaluation results]`
 
 ### Adapter Network
-`python evaluate.py --variant adapterNetwork --model 100k --dataset [path to downloaded evaluation dataset] --output [path to folder where you want to save evaluation results]`
+`python evaluate.py --variant adapterNetwork --model 100k --dataset [path to downloaded evaluation dataset] --output [path to folder where you would like to save evaluation results]`
 
 `--model` argument points to the specific weight file, e.g., `100k` means the model trained using 100k `real` and 100k `fake` images. `16` refers to the size of context window in prompt tuning.
 
