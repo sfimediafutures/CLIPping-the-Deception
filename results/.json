@@ -1,0 +1,14 @@
+{
+  "weights/clipadapter_100k_real_fake_04_best/": {
+    "progan": {
+      "accuracy": 99.875,
+      "f1_score": 99.8749999921875,
+      "average_precision": 99.9994748082142
+    },
+    "biggan": {
+      "accuracy": 94.75,
+      "f1_score": 94.74299635689647,
+      "average_precision": 99.57956736390494
+    }
+  }
+}

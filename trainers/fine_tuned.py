@@ -15,7 +15,6 @@ from clip.simple_tokenizer import SimpleTokenizer as _Tokenizer
 
 _tokenizer = _Tokenizer()
 
-
 CUSTOM_TEMPLATES = {
     'OxfordPets': 'a photo of a {}, a type of pet.',
     'OxfordFlowers': 'a photo of a {}, a type of flower.',
@@ -77,28 +76,6 @@ def load_clip_to_cpu(cfg):
     model = clip.build_model(state_dict or model.state_dict())
 
     return model
-
-
-class Adapter(nn.Module):
-    def __init__(self, c_in, reduction=4):
-        super(Adapter, self).__init__()
-        # self.fc = nn.Sequential(
-        #     nn.Linear(c_in, c_in // reduction, bias=False),
-        #     nn.ReLU(inplace=True),
-        #     nn.Linear(c_in // reduction, c_in, bias=False),
-        #     nn.ReLU(inplace=True)
-        # )
-        self.fc = nn.Sequential(
-            nn.Linear(768, 384, bias=False),
-            nn.ReLU(inplace=True),
-            nn.Linear(384, 768, bias=False),
-            nn.ReLU(inplace=True)
-        )
-
-    def forward(self, x):
-        x = self.fc(x)
-        return x
-    
     
 class TextEncoder(nn.Module):
 
@@ -127,19 +104,13 @@ class CustomCLIP(nn.Module):
         self.text_encoder = TextEncoder(cfg, classnames, clip_model)
         self.logit_scale = clip_model.logit_scale
         self.dtype = clip_model.dtype
-        self.adapter = Adapter(1024, 4).to(clip_model.dtype)
 
+            
     def forward(self, image):
         image_features = self.image_encoder(image.type(self.dtype))
-        x = self.adapter(image_features)
-        ratio = 0.4
-        image_features = ratio * x + (1 - ratio) * image_features
-
         text_features = self.text_encoder()
-
         image_features = image_features / image_features.norm(dim=-1, keepdim=True)
         text_features = text_features / text_features.norm(dim=-1, keepdim=True)
-
         logit_scale = self.logit_scale.exp()
         logits = logit_scale * image_features @ text_features.t()
 
@@ -147,8 +118,8 @@ class CustomCLIP(nn.Module):
 
 
 @TRAINER_REGISTRY.register()
-class CLIP_Adapter(TrainerX):
-    """ CLIP-Adapter """
+class FineTuned_CLIP(TrainerX):
+    """ CLIP-FineTuned """
 
     def build_model(self):
         cfg = self.cfg
@@ -161,24 +132,20 @@ class CLIP_Adapter(TrainerX):
         print('Building custom CLIP')
         self.model = CustomCLIP(cfg, classnames, clip_model)
 
-        print('Turning off gradients in both the image and the text encoder')
-        for name, param in self.model.named_parameters():
-            if 'adapter' not in name:
-                param.requires_grad_(False)
-
         model_parameters = filter(lambda p: p.requires_grad, self.model.parameters())
         params = sum([np.prod(p.size()) for p in model_parameters])
         print('Trainable Parameters: ', str(params))
 
         if cfg.MODEL.INIT_WEIGHTS:
-            load_pretrained_weights(self.model.adapter, cfg.MODEL.INIT_WEIGHTS)
+            load_pretrained_weights(self.model, cfg.MODEL.INIT_WEIGHTS)
 
         self.model.to(self.device)
         # NOTE: only give text_encoder.adapter to the optimizer
-        self.optim = build_optimizer(self.model.adapter, cfg.OPTIM)
+        self.optim = build_optimizer(self.model, cfg.OPTIM)
         self.sched = build_lr_scheduler(self.optim, cfg.OPTIM)
         
-        self.register_model('clip_adapter', self.model.adapter, self.optim, self.sched)
+        # not registering adapter as I am trying to finetune whole clip
+        self.register_model('finetuned_clip', self.model, self.optim, self.sched)
 
         device_count = torch.cuda.device_count()
         if device_count > 1:

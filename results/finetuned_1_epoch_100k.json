@@ -1,0 +1,9 @@
+{
+  "weights/finetuned_1_epoch_100k/": {
+    "progan": {
+      "accuracy": 99.95,
+      "f1_score": 99.949999996875,
+      "average_precision": 99.99993753121878
+    }
+  }
+}

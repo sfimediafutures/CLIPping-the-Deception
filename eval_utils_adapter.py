@@ -39,10 +39,9 @@ import trainers.coop
 import trainers.clip_adapter
 import trainers.cocoop
 import trainers.zsclip
-import trainers.fine_tuned
 
 
-def print_args_fine_tuned(args, cfg):
+def print_args_adapter(args, cfg):
     print("***************")
     print("** Arguments **")
     print("***************")
@@ -55,7 +54,7 @@ def print_args_fine_tuned(args, cfg):
     print("************")
     print(cfg)
 
-def reset_cfg_fine_tuned(cfg, args):
+def reset_cfg_adapter(cfg, args):
     if args.root:
         cfg.DATASET.ROOT = args.root
 
@@ -90,7 +89,7 @@ def reset_cfg_fine_tuned(cfg, args):
     #     cfg.TRAINER.COOP.N_CTX = args.num_ctx_tokens
 
 
-def extend_cfg_fine_tuned(cfg):
+def extend_cfg_adapter(cfg):
     """
     Add new config variables.
 
@@ -119,9 +118,9 @@ def extend_cfg_fine_tuned(cfg):
 
 
 
-def setup_cfg_fine_tuned(args):
+def setup_cfg_adapter(args):
     cfg = get_cfg_default()
-    extend_cfg_fine_tuned(cfg)
+    extend_cfg_adapter(cfg)
 
     # 1. From the dataset config file
     if args.dataset_config_file:
@@ -132,7 +131,7 @@ def setup_cfg_fine_tuned(args):
         cfg.merge_from_file(args.config_file)
 
     # 3. From input arguments
-    reset_cfg_fine_tuned(cfg, args)
+    reset_cfg_adapter(cfg, args)
 
     # 4. From optional input arguments
     # cfg.merge_from_list(args.opts)
@@ -141,7 +140,7 @@ def setup_cfg_fine_tuned(args):
 
     return cfg
 
-def get_parsed_args_fine_tuned(model_dir, dataset_name, dataset_path):
+def get_parsed_args_adapter(model_dir, dataset_name, dataset_path):
     parser = argparse.ArgumentParser(allow_abbrev=True)
     parser.add_argument("--root", type=str, default=dataset_path, help="path to dataset")
     # parser.add_argument("--deepfake-set", default="biggan", action="store_true")        
@@ -165,11 +164,11 @@ def get_parsed_args_fine_tuned(model_dir, dataset_name, dataset_path):
         "--transforms", type=str, nargs="+", help="data augmentation methods"
     )
     parser.add_argument(
-        "--config-file", type=str, default="./configs/trainers/coop/vit_l14_ep1.yaml", help="path to config file"
+        "--config-file", type=str, default="./configs/trainers/coop/vit_l14_ep2.yaml", help="path to config file"
     )
     parser.add_argument("--dataset-config-file", type=str, default="./configs/datasets/"+str(dataset_name)+".yaml",
         help="path to config file for dataset setup",)
-    parser.add_argument("--trainer", type=str, default="FineTuned_CLIP", help="name of trainer")
+    parser.add_argument("--trainer", type=str, default="CLIP_Adapter", help="name of trainer")
     parser.add_argument("--backbone", type=str, default="", help="name of CNN backbone")
     parser.add_argument("--head", type=str, default="", help="name of head")
     parser.add_argument("--eval-only", default="True", action="store_true", help="evaluation only")
@@ -180,7 +179,7 @@ def get_parsed_args_fine_tuned(model_dir, dataset_name, dataset_path):
         help="load model from this directory for eval-only mode",
     )
     parser.add_argument(
-        "--load-epoch", type=int, default="1", help="load model weights at this epoch for evaluation"
+        "--load-epoch", type=int, default="2", help="load model weights at this epoch for evaluation"
     )
     parser.add_argument(
         "--no-train", action="store_true", help="do not call trainer.train()"

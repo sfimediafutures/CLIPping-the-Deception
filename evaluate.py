@@ -67,9 +67,11 @@ import trainers.clip_adapter
 import trainers.clip_zero_shot
 import trainers.cocoop
 import trainers.zsclip
+import trainers.fine_tuned
 
 from eval_utils import print_args, reset_cfg, extend_cfg, setup_cfg, get_parsed_args
 from eval_utils_fine_tuned import print_args_fine_tuned, reset_cfg_fine_tuned, extend_cfg_fine_tuned, setup_cfg_fine_tuned, get_parsed_args_fine_tuned
+from eval_utils_adapter import print_args_adapter, reset_cfg_adapter, extend_cfg_adapter, setup_cfg_adapter, get_parsed_args_adapter
 
 def seed_everything(seed):
         random.seed(seed)
@@ -110,6 +112,8 @@ def update_and_save_evaluation(model_name, dataset_name, accuracy, f1_score, ave
     if 'context' in model_name:
         save_file_name = output_path + model_name.split('/')[1]+'.json'
     elif 'finetuned' in model_name:
+        save_file_name = output_path + model_name.split('/')[1]+'.json'
+    elif 'clipadapter' in model_name:
         save_file_name = output_path + model_name.split('/')[1]+'.json'
     else:
         save_file_name = output_path + '/' + model_name.split('/')[-1].split('.')[0]+'.json'
@@ -236,6 +240,41 @@ def eval_fine_tuning(args, dataset_path, dataset_names, image_extensions, device
         results, results_dict = trainer.test()
         update_and_save_evaluation(model_names[0], dataset, results_dict['accuracy'], results_dict['macro_f1'], results_dict['average_precision'], args.output, model_evaluations)
 
+def eval_adapter_network(args, dataset_path, dataset_names, image_extensions, device):
+    print("*************")
+    print("Evaluating Adapter Network Method!")
+
+    if '100k' in args.model:
+        model_names = ['weights/clipadapter_100k_real_fake_04_best/']
+    elif '80k' in args.model:
+        model_names = ['weights/clipadapter_40k_real_fake_04/']
+    elif '60k' in args.model:
+        model_names = ['weights/clipadapter_30k_real_fake_04/']
+    elif '40k' in args.model:
+        model_names = ['weights/clipadapter_20k_real_fake_04/']
+    elif '20k' in args.model:
+        model_names = ['weights/clipadapter_10k_real_fake_04/']
+    
+    model_evaluations = {}
+    args.parser = dummy_parse_args()
+    for dataset in dataset_names:
+        coop_args = get_parsed_args_adapter(model_names[0], dataset, dataset_path)
+        cfg = setup_cfg_adapter(coop_args)
+        print("Setting fixed seed: {}".format(cfg.SEED))
+        set_random_seed(cfg.SEED)
+        if torch.cuda.is_available() and cfg.USE_CUDA:
+            print('Using CUDA!!!')
+            torch.backends.cudnn.benchmark = True
+
+        print_args(coop_args, cfg)
+        print("Collecting env info ...")
+        print("** System info **\n{}\n".format(collect_env_info()))
+
+        trainer = build_trainer(cfg)
+        trainer.load_model(coop_args.model_dir, epoch=coop_args.load_epoch)
+
+        results, results_dict = trainer.test()
+        update_and_save_evaluation(model_names[0], dataset, results_dict['accuracy'], results_dict['macro_f1'], results_dict['average_precision'], args.output, model_evaluations)
 
 def eval_prompt_tuning(args, dataset_path, dataset_names, image_extensions, device):
     print("*************")
@@ -297,8 +336,10 @@ def main(args):
         eval_prompt_tuning(args, dataset_path, dataset_names, image_extensions, device)
     elif args.variant == 'fineTuning':
         eval_fine_tuning(args, dataset_path, dataset_names, image_extensions, device)
+    elif args.variant == 'adapterNetwork':
+        eval_adapter_network(args, dataset_path, dataset_names, image_extensions, device)
     else:
-        print('More methods coming soon')
+        print('Unrecognized method!!!')
 
     print('Evaluation completed!!')
 
