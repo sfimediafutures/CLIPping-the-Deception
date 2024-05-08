@@ -64,8 +64,6 @@ All the required files are already available in this repository. Just run `pip i
 If you would like to add more datasets besides the ones in our paper, follow `DATASETS.md` to install the datasets.
 
 ## Evaluation
-For now, only `linear probing` and `prompt tuning` evaluation code is made available. I will soon update it with evaluation code for other 2 approaches.
-
 After installing `dassl.pytorch`, just run `evaluate.py` as follows:
 
 ### Linear Probing
