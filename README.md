@@ -80,8 +80,8 @@ After installing `dassl.pytorch`, just run `evaluate.py` as follows:
 
 `--model` argument points to the specific weight file, e.g., `100k` means the model trained using 100k `real` and 100k `fake` images. `16` refers to the size of context window in prompt tuning.
 
-<br>
-## Training
+
+# Training
 After installing `dassl.pytorch`, to train your own models, just run `train.py` as follows:
 
 ### Prompt Tuning
