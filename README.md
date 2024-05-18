@@ -3,14 +3,14 @@ Code and pre-trained models for our paper, [CLIPping the Deception: Adapting Vis
 
 <img src="assets/main.png" alt="Alt text" title="Optional title">
 
-## News
+# News
 * **May-07-2024:** Added adapter network evaluation code
 * **May-06-2024:** Added fine-tuning evaluation code
 * **April-30-2024:** Added prompt tuning evaluation code
 * **April-15-2024:** Added linear probing evaluation code
 * **April-08-2024:** Paper accepted at ICMR 2024
 
-## TODO
+# TODO
 * Inference code.
 * Code to replicate paper results.
 * Training code.
@@ -28,7 +28,7 @@ Model weights can be found [here](https://tinyurl.com/nhheyn9r).
 **Important!!** <br />
 Download and extract **weights.zip** in the same folder as `evaluate.py`
 
-## Installation Guide
+# Installation Guide
 This code is built on top of [Dassl.pytorch](https://github.com/KaiyangZhou/Dassl.pytorch), so you need to install the `dassl` environment first. `cd` to `dassl` folder and simply follow the instructions described below: 
 
 ```bash
@@ -63,7 +63,7 @@ All the required files are already available in this repository. Just run `pip i
 
 If you would like to add more datasets besides the ones in our paper, follow `DATASETS.md` to install the datasets.
 
-## Evaluation
+# Evaluation
 After installing `dassl.pytorch`, just run `evaluate.py` as follows:
 
 ### Linear Probing
