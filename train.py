@@ -1,182 +1,210 @@
-from __future__ import print_function
-import glob
-import clip
-from itertools import chain
-import os
-import cv2
-import random
-# import zipfile
-import os.path as osp
-import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd
+import argparse
 import torch
-# from functools import reduce
-import torch.nn as nn
-# from einops import rearrange, repeat
-import torch.nn.functional as F
-import torch.optim as optim
-import torchvision
-from PIL import Image
-from imgaug import augmenters as iaa
-# from sklearn.model_selection import train_test_split
-from torch.optim.lr_scheduler import StepLR
-from torch.utils.data import DataLoader, Dataset
-from torchvision import datasets, transforms
-from tqdm.notebook import tqdm
-# from skimage import io, img_as_float
-import timm
-from torchvision.transforms import ToPILImage
-from torchvision.transforms import Compose, Resize, CenterCrop, ToTensor, Normalize
-import csv
-import numpy as np
-from sklearn.metrics import average_precision_score, accuracy_score, roc_auc_score, precision_recall_curve
 
-# Local imports
-from utils import class_labels, get_dataset, get_transforms, DeepFakeSet, get_class_based_training_data
-from models import clipmodel, dinov2, CLIPModelOhja
-from trainer import train_model
+from dassl.utils import setup_logger, set_random_seed, collect_env_info
+from dassl.config import get_cfg_default
+from dassl.engine import build_trainer
 
-def main():
-    print("Starting Training!")
+# custom
+import datasets.oxford_pets
+# import datasets.oxford_flowers
+# import datasets.fgvc_aircraft
+# import datasets.dtd
+# import datasets.eurosat
+# import datasets.stanford_cars
+# import datasets.food101
+# import datasets.sun397
+# import datasets.caltech101
+# import datasets.ucf101
+# import datasets.imagenet
+import datasets.progan_train
 
-    device = 'cuda'
+# import datasets.imagenet_sketch
+# import datasets.imagenetv2
+# import datasets.imagenet_a
+# import datasets.imagenet_r
 
-    seed = 17
-    def seed_everything(seed):
-        random.seed(seed)
-        os.environ['PYTHONHASHSEED'] = str(seed)
-        np.random.seed(seed)
-        torch.manual_seed(seed)
-        torch.cuda.manual_seed(seed)
-        torch.cuda.manual_seed_all(seed)
-        torch.backends.cudnn.deterministic = True
+import trainers.coop
+import trainers.clip_adapter
+import trainers.clip_zero_shot
+import trainers.cocoop
+import trainers.zsclip
 
-    seed_everything(seed)
 
-    # dataset_name = 'progan'
-    # num_images_from_each_class = 0
-    # all_training_images, all_validation_images = get_dataset(dataset_name, num_images_from_each_class, balance_classes=False)
-    # dataset_name = 'progan'
-    # num_images_from_each_class = 10000
-    # # balance_classes will be set to True if we need subset of images, lets say if we need 250 image from each class for shorter training
-    # all_training_images, all_validation_images = get_dataset(dataset_name, num_images_from_each_class, balance_classes=True)
-    # # class_name_list = ['airplane']
-    # # all_training_images, all_validation_images = get_class_based_training_data(class_name_list, all_training_images, all_validation_images)
+def print_args(args, cfg):
+    print("***************")
+    print("** Arguments **")
+    print("***************")
+    optkeys = list(args.__dict__.keys())
+    optkeys.sort()
+    for key in optkeys:
+        print("{}: {}".format(key, args.__dict__[key]))
+    print("************")
+    print("** Config **")
+    print("************")
+    print(cfg)
 
-    dataset_name = 'progan'
-    num_images_from_each_class = 4000
-    # balance_classes will be set to True if we need subset of images, lets say if we need 250 image from each class for shorter training
-    all_training_images, all_validation_images = get_dataset(dataset_name, num_images_from_each_class, balance_classes=True)
 
-    print(f"Training Data: {len(all_training_images)}")
-    print('***********************************')
-    print('***********************************')
-    print(f"Validation Data: {len(all_validation_images)}")
+def reset_cfg(cfg, args):
+    if args.root:
+        cfg.DATASET.ROOT = args.root
 
-    train_transforms, val_transforms, clip_train_transforms, clip_val_transforms, test_transforms, transforms_imgaug = get_transforms()
+    if args.output_dir:
+        cfg.OUTPUT_DIR = args.output_dir
 
-    train_data = DeepFakeSet(all_training_images, transform=transforms_imgaug)
-    valid_data = DeepFakeSet(all_validation_images, transform=clip_val_transforms)
+    if args.resume:
+        cfg.RESUME = args.resume
 
-    batch_size = 16
+    if args.seed:
+        cfg.SEED = args.seed
 
-    train_loader = DataLoader(dataset = train_data, batch_size=batch_size, shuffle=True)
-    valid_loader = DataLoader(dataset = valid_data, batch_size=batch_size, shuffle=True)
+    if args.source_domains:
+        cfg.DATASET.SOURCE_DOMAINS = args.source_domains
 
-    print(len(train_data), len(train_loader))
-    print(len(valid_data), len(valid_loader))
+    if args.target_domains:
+        cfg.DATASET.TARGET_DOMAINS = args.target_domains
 
-    # model = CLIPModelOhja()
-    model = clipmodel()
-    model.to(device)
+    if args.transforms:
+        cfg.INPUT.TRANSFORMS = args.transforms
 
-    print('Turning off gradients in both the image and the text encoder')
-    for name, param in model.named_parameters():
-        if 'fc' not in name:
-            param.requires_grad_(False)
+    if args.trainer:
+        cfg.TRAINER.NAME = args.trainer
 
-    model_parameters = filter(lambda p: p.requires_grad, model.parameters())
-    params = sum([np.prod(p.size()) for p in model_parameters])
-    print('Trainable Parameters: ', str(params))
-    
-    epochs = 2
-    lr = 3e-3
-    # gamma = 0.7
-    warmup_epochs = 0
+    if args.backbone:
+        cfg.MODEL.BACKBONE.NAME = args.backbone
 
-    model.train()
+    if args.head:
+        cfg.MODEL.HEAD.NAME = args.head
 
-    # loss function
-    criterion = nn.CrossEntropyLoss()
-    # optimizer
-    # optimizer = optim.SGD(filter(lambda p: p.requires_grad, model.parameters()), lr=lr)
-    optimizer = optim.SGD(model.fc.parameters(), lr=lr)
-    # scheduler
-    scheduler = StepLR(optimizer, step_size=3, gamma=0.1)
-    # Warm-up epoch with a different learning rate
-    warmup_optimizer = optim.SGD(model.fc.parameters(), lr=0.0001)
 
-    
-    for epoch in range(epochs):
-        if epoch < warmup_epochs:
-            optimizer = warmup_optimizer
-        else:
-            optimizer = optimizer
-        epoch_loss = 0
-        epoch_accuracy = 0
+def extend_cfg(cfg):
+    """
+    Add new config variables.
 
-        # Keep track of intermediate statistics for every 10 batches
-        running_loss = 0.0
-        running_accuracy = 0.0
-        print_every = 10
-        
-        for batch_idx, (data, label) in enumerate(tqdm(train_loader)):
-            data = data.to(device)
-            label = label.to(device)
-            optimizer.zero_grad()
-            with torch.cuda.amp.autocast():
-                output = model(data)
-            loss = criterion(output, label)
-            loss.backward()
-            optimizer.step()
-            
-            acc = (output.argmax(dim=1) == label).float().mean()
-            epoch_accuracy += acc / len(train_loader)
-            epoch_loss += loss / len(train_loader)
+    E.g.
+        from yacs.config import CfgNode as CN
+        cfg.TRAINER.MY_MODEL = CN()
+        cfg.TRAINER.MY_MODEL.PARAM_A = 1.
+        cfg.TRAINER.MY_MODEL.PARAM_B = 0.5
+        cfg.TRAINER.MY_MODEL.PARAM_C = False
+    """
+    from yacs.config import CfgNode as CN
 
-            running_accuracy += acc
-            running_loss += loss.item()
+    cfg.TRAINER.COOP = CN()
+    cfg.TRAINER.COOP.N_CTX = 16  # number of context vectors
+    cfg.TRAINER.COOP.CSC = False  # class-specific context
+    cfg.TRAINER.COOP.CTX_INIT = ""  # initialization words
+    cfg.TRAINER.COOP.PREC = "fp16"  # fp16, fp32, amp
+    cfg.TRAINER.COOP.CLASS_TOKEN_POSITION = "end"  # 'middle' or 'end' or 'front'
 
-            # Print accuracy and loss after every 5 processed batches
-            if (batch_idx + 1) % print_every == 0:
-                avg_running_accuracy = running_accuracy / print_every
-                avg_running_loss = running_loss / print_every
-                print(f'Epoch {epoch + 1}, Batch {batch_idx + 1}/{len(train_loader)}, Loss: {avg_running_loss:.4f}, Acc: {avg_running_accuracy:.4f}')
-                running_accuracy = 0.0
-                running_loss = 0.0
+    cfg.TRAINER.COCOOP = CN()
+    cfg.TRAINER.COCOOP.N_CTX = 16  # number of context vectors
+    cfg.TRAINER.COCOOP.CTX_INIT = ""  # initialization words
+    cfg.TRAINER.COCOOP.PREC = "fp16"  # fp16, fp32, amp
 
-        with torch.no_grad():
-            epoch_val_accuracy = 0
-            epoch_val_loss = 0
-            for data, label in valid_loader:
-                data = data.to(device)
-                label = label.to(device)
-    #             print(data.shape)aa
-                with torch.cuda.amp.autocast():
-                    val_output = model(data)
-                val_loss = criterion(val_output, label)
-                acc = (val_output.argmax(dim=1) == label).float().mean()
-                epoch_val_accuracy += acc / len(valid_loader)
-                epoch_val_loss += val_loss / len(valid_loader)
+    cfg.DATASET.SUBSAMPLE_CLASSES = "all"  # all, base or new
 
-        print(
-            f"Epoch : {epoch+1} - loss : {epoch_loss:.4f} - acc: {epoch_accuracy:.4f} - val_loss : {epoch_val_loss:.4f} - val_acc: {epoch_val_accuracy:.4f}\n"
-        )
 
-    torch.save(model.state_dict(), 'CLIP_linear_prob_' + str(epoch+1) + '_epoch_40k_vit_large_with_augs.pth')
-    torch.cuda.empty_cache()
-    print("Training Finsihed!")
+def setup_cfg(args):
+    cfg = get_cfg_default()
+    extend_cfg(cfg)
+
+    # 1. From the dataset config file
+    if args.dataset_config_file:
+        cfg.merge_from_file(args.dataset_config_file)
+
+    # 2. From the method config file
+    if args.config_file:
+        cfg.merge_from_file(args.config_file)
+
+    # 3. From input arguments
+    reset_cfg(cfg, args)
+
+    # 4. From optional input arguments
+    cfg.merge_from_list(args.opts)
+
+    cfg.freeze()
+
+    return cfg
+
+
+def main(args):
+    cfg = setup_cfg(args)
+    if cfg.SEED >= 0:
+        print("Setting fixed seed: {}".format(cfg.SEED))
+        set_random_seed(cfg.SEED)
+    setup_logger(cfg.OUTPUT_DIR)
+
+    if torch.cuda.is_available() and cfg.USE_CUDA:
+        torch.backends.cudnn.benchmark = True
+
+    print_args(args, cfg)
+    print("Collecting env info ...")
+    print("** System info **\n{}\n".format(collect_env_info()))
+
+    trainer = build_trainer(cfg)
+
+    if args.eval_only:
+        trainer.load_model(args.model_dir, epoch=args.load_epoch)
+        trainer.test()
+        return
+
+    if not args.no_train:
+        trainer.train()
+
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--root", type=str, default="", help="path to dataset")
+    parser.add_argument("--output-dir", type=str, default="", help="output directory")
+    parser.add_argument(
+        "--resume",
+        type=str,
+        default="",
+        help="checkpoint directory (from which the training resumes)",
+    )
+    parser.add_argument(
+        "--seed", type=int, default=-1, help="only positive value enables a fixed seed"
+    )
+    parser.add_argument(
+        "--source-domains", type=str, nargs="+", help="source domains for DA/DG"
+    )
+    parser.add_argument(
+        "--target-domains", type=str, nargs="+", help="target domains for DA/DG"
+    )
+    parser.add_argument(
+        "--transforms", type=str, nargs="+", help="data augmentation methods"
+    )
+    parser.add_argument(
+        "--config-file", type=str, default="", help="path to config file"
+    )
+    parser.add_argument(
+        "--dataset-config-file",
+        type=str,
+        default="",
+        help="path to config file for dataset setup",
+    )
+    parser.add_argument("--trainer", type=str, default="", help="name of trainer")
+    parser.add_argument("--backbone", type=str, default="", help="name of CNN backbone")
+    parser.add_argument("--head", type=str, default="", help="name of head")
+    parser.add_argument("--eval-only", action="store_true", help="evaluation only")
+    parser.add_argument(
+        "--model-dir",
+        type=str,
+        default="",
+        help="load model from this directory for eval-only mode",
+    )
+    parser.add_argument(
+        "--load-epoch", type=int, help="load model weights at this epoch for evaluation"
+    )
+    parser.add_argument(
+        "--no-train", action="store_true", help="do not call trainer.train()"
+    )
+    parser.add_argument(
+        "opts",
+        default=None,
+        nargs=argparse.REMAINDER,
+        help="modify config options using the command-line",
+    )
+    args = parser.parse_args()
+    main(args)

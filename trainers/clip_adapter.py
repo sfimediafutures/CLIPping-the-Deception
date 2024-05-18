@@ -58,6 +58,7 @@ CUSTOM_TEMPLATES = {
     'midjourney_v5': 'a {} photo.',
     'dalle3': 'a {} photo.',
     'faceswap': 'a {} photo.',
+    'progan_train': 'a {} photo.',
 }
 
 
@@ -82,12 +83,6 @@ def load_clip_to_cpu(cfg):
 class Adapter(nn.Module):
     def __init__(self, c_in, reduction=4):
         super(Adapter, self).__init__()
-        # self.fc = nn.Sequential(
-        #     nn.Linear(c_in, c_in // reduction, bias=False),
-        #     nn.ReLU(inplace=True),
-        #     nn.Linear(c_in // reduction, c_in, bias=False),
-        #     nn.ReLU(inplace=True)
-        # )
         self.fc = nn.Sequential(
             nn.Linear(768, 384, bias=False),
             nn.ReLU(inplace=True),

@@ -57,6 +57,7 @@ CUSTOM_TEMPLATES = {
     'midjourney_v5': 'a {} photo.',
     'dalle3': 'a {} photo.',
     'faceswap': 'a {} photo.',
+    'progan_train': 'a {} photo.',
 }
 
 

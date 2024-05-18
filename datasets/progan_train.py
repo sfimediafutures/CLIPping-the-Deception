@@ -9,9 +9,9 @@ from .oxford_pets import OxfordPets
 
 
 @DATASET_REGISTRY.register()
-class ImageNet(DatasetBase):
+class progan_train(DatasetBase):
 
-    dataset_dir = "imagenet"
+    dataset_dir = "progan_train"
 
     def __init__(self, cfg):
         root = os.path.abspath(os.path.expanduser(cfg.DATASET.ROOT))
