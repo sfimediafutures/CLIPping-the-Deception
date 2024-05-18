@@ -85,6 +85,8 @@ After installing `dassl.pytorch`, just run `evaluate.py` as follows:
 # Training
 After installing `dassl.pytorch`, to train your own models, just run `train.py` as follows:
 
+P.S. **32-shot** training dataset can be found [here](https://tinyurl.com/49kanv4a).
+
 ### Prompt Tuning
 `python train.py --root CLIPping-the-Deception\configs\data --seed 17 --trainer CoOp --dataset-config-file CLIPping-the-Deception\configs\datasets\progan_train.yaml --config-file CLIPping-the-Deception\configs\trainers\CoOp\vit_l14_ep2.yaml --output-dir CLIPping-the-Deception\train_outputs\coop_100k_2epochs TRAINER.COOP.N_CTX 16 TRAINER.COOP.CSC False TRAINER.COOP.CLASS_TOKEN_POSITION front DATASET.NUM_SHOTS 100000`
 
@@ -97,8 +99,6 @@ In order to run training without any errors, please put the training data in the
 In the paper, I trained all `CoOp` and `Adapter` models for 2 epochs, as it is in the commands above. You are free to change the model config file and train using different training parameters. It is also better if you follow a nice, self explanatory naming convention in the `--output-dir` argument. In the commands I set this to `clip_adapter_100k_2epochs`. This means that I am training the `CLIP_Adapter` on `200k` (100k real and 100k fake) images for `2` epochs.
 
 For training few-shot models, it is better to train them for a higher number of epochs, e.g., the few-shot models in the paper are trained for `20` epochs. 
-
-**32-shot** training dataset can be found [here](https://tinyurl.com/49kanv4a).
 
 # Citations
 If you use this code in your research, please kindly cite the following papers:
