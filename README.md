@@ -80,6 +80,17 @@ After installing `dassl.pytorch`, just run `evaluate.py` as follows:
 
 `--model` argument points to the specific weight file, e.g., `100k` means the model trained using 100k `real` and 100k `fake` images. `16` refers to the size of context window in prompt tuning.
 
+
+## Training
+After installing `dassl.pytorch`, to train your own models, just run `train.py` as follows:
+
+### Prompt Tuning
+`python train.py --root CLIPping-the-Deception\configs\data --seed 17 --trainer CoOp --dataset-config-file CLIPping-the-Deception\configs\datasets\progan_train.yaml --config-file CLIPping-the-Deception\configs\trainers\CoOp\vit_l14_ep2.yaml --output-dir CLIPping-the-Deception\train_outputs\coop_100k_2epochs TRAINER.COOP.N_CTX 16 TRAINER.COOP.CSC False TRAINER.COOP.CLASS_TOKEN_POSITION front DATASET.NUM_SHOTS 100000`
+
+### Adapter Network
+`python train.py --root CLIPping-the-Deception\configs\data --seed 17 --trainer CLIP_Adapter --dataset-config-file CLIPping-the-Deception\configs\datasets\progan_train.yaml --config-file CLIPping-the-Deception\configs\trainers\CoOp\vit_l14_ep2.yaml --output-dir CLIPping-the-Deception\train_outputs\clip_adapter_100k_2epochs DATASET.NUM_SHOTS 100000`
+
+
 ## Citations
 If you use this code in your research, please kindly cite the following papers:
 ```
