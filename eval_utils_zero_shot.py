@@ -8,7 +8,7 @@ from dassl.engine import build_trainer
 
 # custom
 
-import datasets.imagenet
+# import datasets.imagenet
 import datasets.guided
 import datasets.biggan
 import datasets.cyclegan
