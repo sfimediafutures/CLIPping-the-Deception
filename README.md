@@ -101,6 +101,7 @@ In order to run training without any errors, please put the training data in the
 
 data/
 └── progan_train/
+    ├── classnames.txt
     ├── images/
     │   ├── train/
     │   │   ├── n01440764/
