@@ -122,6 +122,9 @@ data/
     │   │   │   └── ...
 
 `````
+
+`n01440764` refers to **real** images, whereas, `n01443537` contains **fake** images.
+
 In the paper, I trained all `CoOp` and `Adapter` models for 2 epochs, as it is in the commands above. You are free to change the model config file and train using different training parameters. It is also better if you follow a nice, self explanatory naming convention in the `--output-dir` argument. In the commands I set this to `clip_adapter_100k_2epochs`. This means that I am training the `CLIP_Adapter` on `200k` (100k real and 100k fake) images for `2` epochs.
 
 For training few-shot models, it is better to train them for a higher number of epochs, e.g., the few-shot models in the paper are trained for `20` epochs. 
