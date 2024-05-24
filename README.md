@@ -126,7 +126,7 @@ In the paper, I trained all `CoOp` and `Adapter` models for 2 epochs, as it is i
 
 For training few-shot models, it is better to train them for a higher number of epochs, e.g., the few-shot models in the paper are trained for `20` epochs. 
 
-`````
+
 # Citations
 If you use this code in your research, please kindly cite the following papers:
 ```
