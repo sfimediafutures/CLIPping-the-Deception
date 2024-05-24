@@ -103,7 +103,6 @@ For training few-shot models, it is better to train them for a higher number of 
 ```plaintext
 # Folder Structure
 
-```plaintext
 data/
 └── progan_train/
     ├── images/
