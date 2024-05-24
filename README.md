@@ -94,7 +94,29 @@ P.S. **32-shot** training dataset can be found [here](https://tinyurl.com/49kanv
 `python train.py --root CLIPping-the-Deception\configs\data --seed 17 --trainer CLIP_Adapter --dataset-config-file CLIPping-the-Deception\configs\datasets\progan_train.yaml --config-file CLIPping-the-Deception\configs\trainers\CoOp\vit_l14_ep2.yaml --output-dir CLIPping-the-Deception\train_outputs\clip_adapter_100k_2epochs DATASET.NUM_SHOTS 100000`
 
 **Important!!** <br />
-In order to run training without any errors, please put the training data in the same folder as I did in the commands above i.e., `CLIPping-the-Deception\data`. Also follow the same folder structure inside the `data` folder as it is in this repository.
+In order to run training without any errors, please put the training data in the same folder as I did in the commands above i.e., `CLIPping-the-Deception\data`. Also follow the same folder structure inside the `data` folder as below:
+
+# Folder Structure
+
+```plaintext
+data/
+└── progan_train/
+    ├── images/
+    │   ├── image1.jpg
+    │   ├── image2.jpg
+    │   └── ...
+    ├── annotations/
+    │   ├── annotation1.json
+    │   ├── annotation2.json
+    │   └── ...
+    ├── checkpoints/
+    │   ├── checkpoint1.pth
+    │   ├── checkpoint2.pth
+    │   └── ...
+    └── logs/
+        ├── log1.txt
+        ├── log2.txt
+        └── ...
 
 In the paper, I trained all `CoOp` and `Adapter` models for 2 epochs, as it is in the commands above. You are free to change the model config file and train using different training parameters. It is also better if you follow a nice, self explanatory naming convention in the `--output-dir` argument. In the commands I set this to `clip_adapter_100k_2epochs`. This means that I am training the `CLIP_Adapter` on `200k` (100k real and 100k fake) images for `2` epochs.
 
