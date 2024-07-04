@@ -134,10 +134,11 @@ For training few-shot models, it is better to train them for a higher number of 
 # Citations
 If you use this code in your research, please kindly cite the following papers:
 ```
-@article{khan2024clipping,
+@inproceedings{khan2024clipping,
   title={CLIPping the Deception: Adapting Vision-Language Models for Universal Deepfake Detection},
   author={Khan, Sohail Ahmed and Dang-Nguyen, Duc-Tien},
-  journal={arXiv preprint arXiv:2402.12927},
+  booktitle={Proceedings of the 2024 International Conference on Multimedia Retrieval},
+  pages={1006--1015},
   year={2024}
 }
 
