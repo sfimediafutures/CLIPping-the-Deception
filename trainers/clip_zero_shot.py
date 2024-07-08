@@ -53,6 +53,7 @@ CUSTOM_TEMPLATES = {
     'stylegan2': 'a {} photo.',
     'stylegan3': 'a {} photo.',
     'taming': 'a {} photo.',
+    'progan_train': 'a {} photo.',
 }
 
 
@@ -72,22 +73,6 @@ def load_clip_to_cpu(cfg):
     model = clip.build_model(state_dict or model.state_dict())
 
     return model
-
-
-class Adapter(nn.Module):
-    def __init__(self, c_in, reduction=4):
-        super(Adapter, self).__init__()
-        self.fc = nn.Sequential(
-            nn.Linear(c_in, c_in // reduction, bias=False),
-            nn.ReLU(inplace=True),
-            nn.Linear(c_in // reduction, c_in, bias=False),
-            nn.ReLU(inplace=True)
-        )
-
-    def forward(self, x):
-        x = self.fc(x)
-        return x
-    
     
 class TextEncoder(nn.Module):
 
@@ -116,16 +101,9 @@ class CustomCLIP(nn.Module):
         self.text_encoder = TextEncoder(cfg, classnames, clip_model)
         self.logit_scale = clip_model.logit_scale
         self.dtype = clip_model.dtype
-        # self.adapter = Adapter(1024, 4).to(clip_model.dtype)
-
             
     def forward(self, image):
         image_features = self.image_encoder(image.type(self.dtype))
-        # x = self.adapter(image_features)
-
-        # ratio = 0.2
-        # image_features = ratio * x + (1 - ratio) * image_features
-
         text_features = self.text_encoder()
 
         image_features = image_features / image_features.norm(dim=-1, keepdim=True)
@@ -139,7 +117,6 @@ class CustomCLIP(nn.Module):
 
 @TRAINER_REGISTRY.register()
 class CLIP_ZeroShot(TrainerX):
-    """ CLIP-Adapter """
 
     def build_model(self):
         cfg = self.cfg
@@ -151,20 +128,14 @@ class CLIP_ZeroShot(TrainerX):
 
         print('Building custom CLIP')
         self.model = CustomCLIP(cfg, classnames, clip_model)
-
-        # print('Turning off gradients in both the image and the text encoder')
-        # for name, param in self.model.named_parameters():
-        #     if 'adapter' not in name:
-        #         param.requires_grad_(False)
-
-        # if cfg.MODEL.INIT_WEIGHTS:
-        #     load_pretrained_weights(self.model.adapter, cfg.MODEL.INIT_WEIGHTS)
-
         
         self.model.to(self.device)
-        # NOTE: only give text_encoder.adapter to the optimizer
         self.optim = build_optimizer(self.model, cfg.OPTIM)
         self.sched = build_lr_scheduler(self.optim, cfg.OPTIM)
+
+        model_parameters = filter(lambda p: p.requires_grad, self.model.parameters())
+        params = sum([np.prod(p.size()) for p in model_parameters])
+        print('Trainable Parameters: ', str(params))
         
         # not registering adapter as I am trying to finetune whole clip
         self.register_model('clip_adapter', self.model, self.optim, self.sched)

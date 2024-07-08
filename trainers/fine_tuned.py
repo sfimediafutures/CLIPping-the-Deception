@@ -133,10 +133,6 @@ class FineTuned_CLIP(TrainerX):
         print('Building custom CLIP')
         self.model = CustomCLIP(cfg, classnames, clip_model)
 
-        model_parameters = filter(lambda p: p.requires_grad, self.model.parameters())
-        params = sum([np.prod(p.size()) for p in model_parameters])
-        print('Trainable Parameters: ', str(params))
-
         if cfg.MODEL.INIT_WEIGHTS:
             load_pretrained_weights(self.model, cfg.MODEL.INIT_WEIGHTS)
 
@@ -144,6 +140,10 @@ class FineTuned_CLIP(TrainerX):
         # NOTE: only give text_encoder.adapter to the optimizer
         self.optim = build_optimizer(self.model, cfg.OPTIM)
         self.sched = build_lr_scheduler(self.optim, cfg.OPTIM)
+
+        model_parameters = filter(lambda p: p.requires_grad, self.model.parameters())
+        params = sum([np.prod(p.size()) for p in model_parameters])
+        print('Trainable Parameters: ', str(params))
         
         # not registering adapter as I am trying to finetune whole clip
         self.register_model('finetuned_clip', self.model, self.optim, self.sched)

@@ -27,6 +27,7 @@ import datasets.progan_train
 import trainers.coop
 import trainers.clip_adapter
 import trainers.clip_zero_shot
+import trainers.fine_tuned
 import trainers.cocoop
 import trainers.zsclip
 
