@@ -4,6 +4,7 @@ Code and pre-trained models for our paper, [CLIPping the Deception: Adapting Vis
 <img src="assets/main.png" alt="Alt text" title="Optional title">
 
 # News
+* **July-08-2024:** Added training code for full CLIP fine-tuning
 * **May-18-2024:** Added training code for prompt tuning and adapter network
 * **May-07-2024:** Added adapter network evaluation code
 * **May-06-2024:** Added fine-tuning evaluation code
@@ -14,7 +15,7 @@ Code and pre-trained models for our paper, [CLIPping the Deception: Adapting Vis
 # TODO
 * Inference code.
 * Code to replicate paper results.
-* Training code for Linear Probing and Fine-Tuning.
+* Training code for Linear Probing.
 
 ## Evaluation Dataset
 The evaluation dataset can be found [here](https://tinyurl.com/5b3fh7fh).
@@ -88,10 +89,13 @@ After installing `dassl.pytorch`, to train your own models, just run `train.py` 
 P.S. **32-shot** training dataset can be found [here](https://tinyurl.com/49kanv4a).
 
 ### Prompt Tuning
-`python train.py --root CLIPping-the-Deception\configs\data --seed 17 --trainer CoOp --dataset-config-file CLIPping-the-Deception\configs\datasets\progan_train.yaml --config-file CLIPping-the-Deception\configs\trainers\CoOp\vit_l14_ep2.yaml --output-dir CLIPping-the-Deception\train_outputs\coop_100k_2epochs TRAINER.COOP.N_CTX 16 TRAINER.COOP.CSC False TRAINER.COOP.CLASS_TOKEN_POSITION front DATASET.NUM_SHOTS 100000`
+`python train.py --root data\ --seed 17 --trainer CoOp --dataset-config-file configs\datasets\progan_train.yaml --config-file configs\trainers\CoOp\vit_l14_ep2.yaml --output-dir train_outputs\coop_100k_2epochs TRAINER.COOP.N_CTX 16 TRAINER.COOP.CSC False TRAINER.COOP.CLASS_TOKEN_POSITION front DATASET.NUM_SHOTS 100000`
 
 ### Adapter Network
-`python train.py --root CLIPping-the-Deception\configs\data --seed 17 --trainer CLIP_Adapter --dataset-config-file CLIPping-the-Deception\configs\datasets\progan_train.yaml --config-file CLIPping-the-Deception\configs\trainers\CoOp\vit_l14_ep2.yaml --output-dir CLIPping-the-Deception\train_outputs\clip_adapter_100k_2epochs DATASET.NUM_SHOTS 100000`
+`python train.py --root data\ --seed 17 --trainer CLIP_Adapter --dataset-config-file configs\datasets\progan_train.yaml --config-file configs\trainers\CoOp\vit_l14_ep2.yaml --output-dir train_outputs\clip_adapter_100k_2epochs DATASET.NUM_SHOTS 100000`
+
+### Full CLIP Fine-tune (24GB GPU Recommended)
+`python train.py --root data\ --seed 17 --trainer FineTuned_CLIP --dataset-config-file configs\datasets\progan_train.yaml --config-file configs\trainers\CoOp\vit_l14_ep1.yaml --output-dir train_outputs\clip_full_finetune_100k_1epoch DATASET.NUM_SHOTS 100000`
 
 **Important!!** <br />
 In order to run training without any errors, please put the training data in the same folder as I did in the commands above i.e., `CLIPping-the-Deception\data`. Also follow the same folder structure inside the `data` folder as below:
