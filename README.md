@@ -93,6 +93,9 @@ P.S. **32-shot** training dataset can be found [here](https://tinyurl.com/49kanv
 ### Adapter Network
 `python train.py --root data\ --seed 17 --trainer CLIP_Adapter --dataset-config-file configs\datasets\progan_train.yaml --config-file configs\trainers\CoOp\vit_l14_ep2.yaml --output-dir train_outputs\clip_adapter_100k_2epochs DATASET.NUM_SHOTS 100000`
 
+### Full CLIP Train (24GB GPU Recommended)
+`python train.py --root data\ --seed 17 --trainer CLIP_ZeroShot --dataset-config-file configs\datasets\progan_train.yaml --config-file configs\trainers\CoOp\vit_l14_ep1.yaml --output-dir train_outputs\clip_full_train_100k_1epoch DATASET.NUM_SHOTS 100000`
+
 **Important!!** <br />
 In order to run training without any errors, please put the training data in the same folder as I did in the commands above i.e., `CLIPping-the-Deception\data`. Also follow the same folder structure inside the `data` folder as below:
 
