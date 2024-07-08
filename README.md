@@ -4,6 +4,7 @@ Code and pre-trained models for our paper, [CLIPping the Deception: Adapting Vis
 <img src="assets/main.png" alt="Alt text" title="Optional title">
 
 # News
+* **July-08-2024:** Added training code for full CLIP training
 * **May-18-2024:** Added training code for prompt tuning and adapter network
 * **May-07-2024:** Added adapter network evaluation code
 * **May-06-2024:** Added fine-tuning evaluation code
