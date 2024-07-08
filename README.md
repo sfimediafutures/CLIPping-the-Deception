@@ -88,10 +88,10 @@ After installing `dassl.pytorch`, to train your own models, just run `train.py` 
 P.S. **32-shot** training dataset can be found [here](https://tinyurl.com/49kanv4a).
 
 ### Prompt Tuning
-`python train.py --root CLIPping-the-Deception\configs\data --seed 17 --trainer CoOp --dataset-config-file CLIPping-the-Deception\configs\datasets\progan_train.yaml --config-file CLIPping-the-Deception\configs\trainers\CoOp\vit_l14_ep2.yaml --output-dir CLIPping-the-Deception\train_outputs\coop_100k_2epochs TRAINER.COOP.N_CTX 16 TRAINER.COOP.CSC False TRAINER.COOP.CLASS_TOKEN_POSITION front DATASET.NUM_SHOTS 100000`
+`python train.py --root data\ --seed 17 --trainer CoOp --dataset-config-file configs\datasets\progan_train.yaml --config-file configs\trainers\CoOp\vit_l14_ep2.yaml --output-dir train_outputs\coop_100k_2epochs TRAINER.COOP.N_CTX 16 TRAINER.COOP.CSC False TRAINER.COOP.CLASS_TOKEN_POSITION front DATASET.NUM_SHOTS 100000`
 
 ### Adapter Network
-`python train.py --root CLIPping-the-Deception\configs\data --seed 17 --trainer CLIP_Adapter --dataset-config-file CLIPping-the-Deception\configs\datasets\progan_train.yaml --config-file CLIPping-the-Deception\configs\trainers\CoOp\vit_l14_ep2.yaml --output-dir CLIPping-the-Deception\train_outputs\clip_adapter_100k_2epochs DATASET.NUM_SHOTS 100000`
+`python train.py --root data\ --seed 17 --trainer CLIP_Adapter --dataset-config-file configs\datasets\progan_train.yaml --config-file configs\trainers\CoOp\vit_l14_ep2.yaml --output-dir train_outputs\clip_adapter_100k_2epochs DATASET.NUM_SHOTS 100000`
 
 **Important!!** <br />
 In order to run training without any errors, please put the training data in the same folder as I did in the commands above i.e., `CLIPping-the-Deception\data`. Also follow the same folder structure inside the `data` folder as below:
