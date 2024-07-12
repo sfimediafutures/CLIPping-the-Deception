@@ -97,6 +97,9 @@ P.S. **32-shot** training dataset can be found [here](https://tinyurl.com/49kanv
 ### Full CLIP Fine-tune (24GB GPU Recommended)
 `python train.py --root data\ --seed 17 --trainer FineTuned_CLIP --dataset-config-file configs\datasets\progan_train.yaml --config-file configs\trainers\CoOp\vit_l14_ep1.yaml --output-dir train_outputs\clip_full_finetune_100k_1epoch DATASET.NUM_SHOTS 100000`
 
+### Linear Probing
+`python train_linear.py --train_strategy 100k --dataset_path C:\Users\Sohail\Desktop\Research\PhD\Year3\DeepfakeDetection\CoOp\data\ImageNet_100k`
+
 **Important!!** <br />
 In order to run training without any errors, please put the training data in the same folder as I did in the commands above i.e., `CLIPping-the-Deception\data`. Also follow the same folder structure inside the `data` folder as below:
 
