@@ -4,6 +4,7 @@ Code and pre-trained models for our paper, [CLIPping the Deception: Adapting Vis
 <img src="assets/main.png" alt="Alt text" title="Optional title">
 
 # News
+* **July-08-2024:** Added training code for linear probing
 * **July-08-2024:** Added training code for full CLIP fine-tuning
 * **May-18-2024:** Added training code for prompt tuning and adapter network
 * **May-07-2024:** Added adapter network evaluation code
@@ -15,7 +16,6 @@ Code and pre-trained models for our paper, [CLIPping the Deception: Adapting Vis
 # TODO
 * Inference code.
 * Code to replicate paper results.
-* Training code for Linear Probing.
 
 ## Evaluation Dataset
 The evaluation dataset can be found [here](https://tinyurl.com/5b3fh7fh).
