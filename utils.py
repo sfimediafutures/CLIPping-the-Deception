@@ -67,6 +67,7 @@ def shuffle_list(inp_list):
     np.random.shuffle(inp_list)
     return inp_list
 
+# Logic to get exactly the same amount of images from each category of Progan dataset e.g., 10000 (real + fake) images of airplane, 10000 images of car etc
 def get_balanced_list_of_class_images(list_of_images, num_images_from_each_class, class_labels):
     subset_images = []
     class_count = {class_label: {'real': 0, 'fake': 0} for class_label in class_labels}
@@ -86,24 +87,36 @@ def get_balanced_list_of_class_images(list_of_images, num_images_from_each_class
             break
     return subset_images
 
-def get_dataset(dataset_name, num_images_from_each_class, balance_classes):
+def get_dataset(dataset_path, num_images_from_each_class, balance_classes):
     seed_everything(17)
-    if dataset_name == 'progan':
-        train_dir_real = '../CoOp/data/ImageNet_100k/images/train/n01440764/'
-        train_dir_fake = '../CoOp/data/ImageNet_100k/images/train/n01443537/'
-        validation_dir_real = '../CoOp/data/ImageNet_100k/images/val/n01440764/'
-        validation_dir_fake = '../CoOp/data/ImageNet_100k/images/val/n01443537/'
-    elif dataset_name == 'sd':
-        train_dir_real = '../CoOp/data/ImageNet/images/train/n01440764/'
-        train_dir_fake = '../Datasets/ICMRDataset/train/stablediffusion/1_fake/'
-        validation_dir_real = '../CoOp/data/ImageNet/images/val/n01440764/'
-        validation_dir_fake = '../Datasets/ICMRDataset/validation/stablediffusion/1_fake/'
-    elif dataset_name == 'fewshot':
-        train_dir_real = '../CoOp/data/ImageNet/images/train/n01440764/'
-        train_dir_fake = '../CoOp/data/ImageNet/images/train/n01443537/'
-        validation_dir_real = '../CoOp/data/ImageNet/images/val/n01440764/'
-        validation_dir_fake = '../CoOp/data/ImageNet/images/val/n01443537/'
+
     
+    
+    ## TO BE REMOVED
+    # if dataset_name == 'progan':
+    #     train_dir_real = '../CoOp/data/ImageNet_100k/images/train/n01440764/'
+    #     train_dir_fake = '../CoOp/data/ImageNet_100k/images/train/n01443537/'
+    #     validation_dir_real = '../CoOp/data/ImageNet_100k/images/val/n01440764/'
+    #     validation_dir_fake = '../CoOp/data/ImageNet_100k/images/val/n01443537/'
+    # elif dataset_name == 'sd':
+    #     train_dir_real = '../CoOp/data/ImageNet/images/train/n01440764/'
+    #     train_dir_fake = '../Datasets/ICMRDataset/train/stablediffusion/1_fake/'
+    #     validation_dir_real = '../CoOp/data/ImageNet/images/val/n01440764/'
+    #     validation_dir_fake = '../Datasets/ICMRDataset/validation/stablediffusion/1_fake/'
+    # elif dataset_name == 'fewshot':
+    #     train_dir_real = '../CoOp/data/ImageNet/images/train/n01440764/'
+    #     train_dir_fake = '../CoOp/data/ImageNet/images/train/n01443537/'
+    #     validation_dir_real = '../CoOp/data/ImageNet/images/val/n01440764/'
+    #     validation_dir_fake = '../CoOp/data/ImageNet/images/val/n01443537/'
+    ## TO BE REMOVED
+
+
+
+    train_dir_real = dataset_path + '/images/train/n01440764/'
+    train_dir_fake = dataset_path + '/images/train/n01443537/'
+    validation_dir_real = dataset_path + '/images/val/n01440764/'
+    validation_dir_fake = dataset_path + '/images/val/n01443537/'
+
     train_list_real = glob.glob(os.path.join(train_dir_real,'*'))
     train_list_fake = glob.glob(os.path.join(train_dir_fake,'*'))
     validation_list_real = glob.glob(os.path.join(validation_dir_real,'*'))
@@ -139,7 +152,6 @@ def get_dataset(dataset_name, num_images_from_each_class, balance_classes):
         subset_validation_images = get_balanced_list_of_class_images(all_validation_images, num_images_from_each_class, class_labels)
         all_training_images = shuffle_list(subset_training_images)
         # all_validation_images = shuffle_list(subset_validation_images)
-
     return all_training_images, all_validation_images
 
 class ImgAugTransform:
