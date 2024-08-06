@@ -25,7 +25,7 @@ The dataset is processed as required by [Dassl.pytorch](https://github.com/Kaiya
 More details about this convention will be included with the **Inference** and **Evaluation** codes (which will be uploaded soon).
 
 ## Pre-trained Models
-Model weights can be found [here](https://tinyurl.com/nhheyn9r).
+Model weights can be found [here](https://tinyurl.com/yhsuwjhv).
 
 **Important!!** <br />
 Download and extract **weights.zip** in the same folder as `evaluate.py`
