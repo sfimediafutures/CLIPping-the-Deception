@@ -14,7 +14,7 @@ Code and pre-trained models for our paper, [CLIPping the Deception: Adapting Vis
 * **April-08-2024:** Paper accepted at ICMR 2024
 
 # TODO
-* Inference code.
+* Single image inference code.
 * Code to replicate paper results.
 
 ## Evaluation Dataset
