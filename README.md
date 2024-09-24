@@ -84,10 +84,9 @@ After installing `dassl.pytorch`, just run `evaluate.py` as follows:
 
 
 # Training
+**Training dataset** containing 100k real and 100k fake images can be found [here](https://tinyurl.com/2ek7t4sb). **32-shot** training dataset can be found [here](https://tinyurl.com/49kanv4a).
+
 After installing `dassl.pytorch`, to train your own models, just run `train.py` as follows:
-
-P.S. **32-shot** training dataset can be found [here](https://tinyurl.com/49kanv4a).
-
 ### Prompt Tuning
 `python train.py --root data\ --seed 17 --trainer CoOp --dataset-config-file configs\datasets\progan_train.yaml --config-file configs\trainers\CoOp\vit_l14_ep2.yaml --output-dir train_outputs\coop_100k_2epochs TRAINER.COOP.N_CTX 16 TRAINER.COOP.CSC False TRAINER.COOP.CLASS_TOKEN_POSITION front DATASET.NUM_SHOTS 100000`
 
