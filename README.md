@@ -1,4 +1,4 @@
-# CLIPping the Deception: Adapting Vision Language Models for Universal Deepfake Detection (Upcoming - ICMR 2024)
+# CLIPping the Deception: Adapting Vision Language Models for Universal Deepfake Detection (ICMR 2024)
 Code and pre-trained models for our paper, [CLIPping the Deception: Adapting Vision-Language Models for Universal Deepfake Detection](https://arxiv.org/pdf/2402.12927).
 
 <img src="assets/main.png" alt="Alt text" title="Optional title">
