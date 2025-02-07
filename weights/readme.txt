@@ -1,1 +1,1 @@
-Put model weights from `weights.py` in this folder.
+Put model weights from `weights.zip` in this folder.
