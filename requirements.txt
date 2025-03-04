@@ -1,3 +1,6 @@
 ftfy
 regex
 tqdm
+opencv-python
+imgaug
+matplotlib
