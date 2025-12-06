@@ -18,14 +18,14 @@ Code and pre-trained models for our paper, [CLIPping the Deception: Adapting Vis
 * Code to replicate paper results.
 
 ## Evaluation Dataset
-The evaluation dataset can be found [here](https://tinyurl.com/5b3fh7fh).
+The evaluation dataset can be found [here](https://drive.google.com/file/d/18tm_O30aCuKXNusld1TvjZwhSiSxrbQ6/view?usp=sharing).
 
 The dataset is processed as required by [Dassl.pytorch](https://github.com/KaiyangZhou/Dassl.pytorch). For each subset, e.g., StarGAN, two folders can be found each containing **real** - **fake** images. The sample path for StarGAN's evaluation images would be something like: `stargan/images/val/`. In the **val** folder there are two folders, (1) `n01440764` - containing **real** images, (2) `n01443537` - containing **fake** images.
 
 More details about this convention will be included with the **Inference** and **Evaluation** codes (which will be uploaded soon).
 
 ## Pre-trained Models
-Model weights can be found [here](https://tinyurl.com/yhsuwjhv).
+Model weights can be found [here](https://drive.google.com/file/d/1jtkBoIuMw5wrooTv-anh668G3_Xt-UnX/view?usp=sharing).
 
 **Important!!** <br />
 Download and extract **weights.zip** in the same folder as `evaluate.py`
@@ -84,7 +84,7 @@ After installing `dassl.pytorch`, just run `evaluate.py` as follows:
 
 
 # Training
-**Training dataset** containing 100k real and 100k fake images can be found [here](https://tinyurl.com/2ek7t4sb). **32-shot** training dataset can be found [here](https://tinyurl.com/49kanv4a).
+**Training dataset** containing 100k real and 100k fake images can be found [here](https://tinyurl.com/2ek7t4sb). **32-shot** training dataset can be found [here](https://drive.google.com/file/d/1Y-8V1vBxL1xPY57QL_dRdWqYvFj887pN/view?usp=sharing).
 
 After installing `dassl.pytorch`, to train your own models, just run `train.py` as follows:
 ### Prompt Tuning
